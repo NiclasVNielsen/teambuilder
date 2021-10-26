@@ -146,5 +146,72 @@ export const getRanks = async () => {
 }
 
 
+export const getAllTeams = async () => {
+    try {
+        const teams = []
+
+        let q = query(collection(db, "teams"));
+    
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            teams.push(doc.data())
+        });
+
+        console.log(teams[0]['members']) /* TESTING */
+
+        return teams
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+
+export const getAllTournaments = async () => {
+    try {
+        const tournaments = []
+
+        let q = query(collection(db, "tournaments"));
+    
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            tournaments.push(doc.data())
+        });
+
+        console.log(tournaments[0]['desc']) /* TESTING */
+
+        return tournaments
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+
+export const getAllUsers = async () => {
+    try {
+        const users = []
+
+        let q = query(collection(db, "users"));
+    
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            users.push(doc.data())
+        });
+
+        console.log(users[0]['lanes']['champPool']) /* TESTING */
+
+        return users
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+getAllUsers()
+
+
 createApp(App).use(store).use(router).mount('#app')
 
