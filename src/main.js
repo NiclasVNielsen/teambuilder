@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, getDocs } from "firebase/firestore";
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -26,11 +26,11 @@ const db = firebaseApp.firestore()
 
 
 const championsCollection = db.collection('champions')
-/*const matchesCollection = db.collection('matches')
 /*const ranksCollection = db.collection('ranks')
 /*const teamsCollection = db.collection('teams')
 /*const tournamentsCollection = db.collection('tournaments')
-/*const usersCollection = db.collection('users') */
+/*const usersCollection = db.collection('users') 
+/*const matchesCollection = db.collection('matches')*/
 
 
 /* Fine italian pasta ---------------------------------------------------*/
@@ -52,78 +52,92 @@ export const champs = getChampions()
 
 /* End of spagetti code---------------------------------------------------*/
 
-/* export const getMatches = async () => {
-    try {
-        const matches = await matchesCollection.get().then()
-        return matches.exists ? matches.data() : null
-    } 
-
-    catch {
-        err => console.error('This is burning🔥 ', err)
-    }
-}
-
-console.log(getMatches()) */
-
 
 export const getAllMatches = async () => {
     try {
+        const matches = []
+
         let q = query(collection(db, "matches"));
     
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
+            matches.push(doc.data())
         });
+
+        console.log(matches)
+
+        return matches
     } 
 
     catch {
         err => console.error('This is burning🔥 ', err)
     }
 }
-//getAllMatches()
 
 
 
 export const getMatchesByPlayer = async (player) => {
     try {
-        const q = query(collection(db, "matches"), 
-            where("players.1.name", "==", player) ||
-            where("players.2.name", "==", player) ||
-            where("players.3.name", "==", player) ||
-            where("players.4.name", "==", player) ||
-            where("players.5.name", "==", player) ||
-            where("players.6.name", "==", player) ||
-            where("players.7.name", "==", player) ||
-            where("players.8.name", "==", player) ||
-            where("players.9.name", "==", player) ||
-            where("players.10.name", "==", player)
-        );
+        const matches = []
+
+        const q = query(collection(db, "matches"));
     
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
+            for(let i = 1; i < 11; i++){
+                if(doc.data().players[i]['name'] == player){
+                    matches.push(doc.data())
+                }
+            }
         });
+        console.log(matches)
+        return matches
     } 
 
     catch {
         err => console.error('This is burning🔥 ', err)
     }
 }
-//getMatchesByPlayer("topMonkey")
 
 
 export const getMatchesByTeam = async (team) => {
     try {
-        console.log('meow')
-        const q = query(collection(db, "matches"), 
-            where("players.1.name", "==", team)
-        );
+        const matches = []
+
+        const q = query(collection(db, "matches"));
     
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
+            for(let i = 1; i < 3; i++){
+                if(doc.data().teams[i] == team){
+                    matches.push(doc.data())
+                }
+            }
         });
+        console.log(matches)
+        return matches
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+
+export const getRanks = async () => {
+    try {
+        let ranks;
+
+        const q = query(collection(db, "ranks"));
+    
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            ranks = doc.data()
+        });
+
+        console.log(ranks[1]) /*TESTING*/
+
+        return ranks
     } 
 
     catch {
