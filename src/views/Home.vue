@@ -21,8 +21,6 @@ export default {
     champions.champion
       .then(cmp => champions.champion = cmp)
     /* End of spagetti code---------------------------------------------------*/
-
-    console.log(champions.champion)
   
     return { champions };
   },

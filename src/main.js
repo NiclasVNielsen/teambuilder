@@ -1,3 +1,4 @@
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -51,4 +52,85 @@ export const champs = getChampions()
 
 /* End of spagetti code---------------------------------------------------*/
 
+/* export const getMatches = async () => {
+    try {
+        const matches = await matchesCollection.get().then()
+        return matches.exists ? matches.data() : null
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+console.log(getMatches()) */
+
+
+export const getAllMatches = async () => {
+    try {
+        let q = query(collection(db, "matches"));
+    
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+        });
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+//getAllMatches()
+
+
+
+export const getMatchesByPlayer = async (player) => {
+    try {
+        const q = query(collection(db, "matches"), 
+            where("players.1.name", "==", player) ||
+            where("players.2.name", "==", player) ||
+            where("players.3.name", "==", player) ||
+            where("players.4.name", "==", player) ||
+            where("players.5.name", "==", player) ||
+            where("players.6.name", "==", player) ||
+            where("players.7.name", "==", player) ||
+            where("players.8.name", "==", player) ||
+            where("players.9.name", "==", player) ||
+            where("players.10.name", "==", player)
+        );
+    
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+        });
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+//getMatchesByPlayer("topMonkey")
+
+
+export const getMatchesByTeam = async (team) => {
+    try {
+        console.log('meow')
+        const q = query(collection(db, "matches"), 
+            where("players.1.name", "==", team)
+        );
+    
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+
 createApp(App).use(store).use(router).mount('#app')
+
