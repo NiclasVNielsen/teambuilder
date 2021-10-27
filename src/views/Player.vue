@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getUserByName, getRanks, getMatchesByPlayer } from '@/main.js'
@@ -102,33 +101,26 @@ export default{
     setup() {
         const route = useRoute()
 
-        let uid = ref('')
         let name = ref('')
         let rank = ref('')
         let lanes = ref('')
         let matches = ref('')
-
-        firebase.auth().onAuthStateChanged(function(user) {
-            uid.value = user.uid
-
-            console.log(route.params.username)
-            getUserByName(route.params.username)
-              .then(data => {
-                name.value = data[0].lolName
-                rank.value = data[0].rank
-                lanes.value = data[0].lanes
+        getUserByName(route.params.username)
+            .then(data => {
+            name.value = data[0].lolName
+            rank.value = data[0].rank
+            lanes.value = data[0].lanes
+            
+            getMatchesByPlayer(data[0].lolName)
+                .then(data => {
+                matches.value = data
+                })
                 
-                getMatchesByPlayer(data[0].lolName)
-                  .then(data => {
-                    matches.value = data
-                  })
-                  
-                getRanks()
-                  .then(rankData => {
-                    rank.value = rankData[rank.value]
-                  })
-              })
-        });
+            getRanks()
+                .then(rankData => {
+                rank.value = rankData[rank.value]
+                })
+            })
 
         return {
             name, rank, lanes, matches
