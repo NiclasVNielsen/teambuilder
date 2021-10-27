@@ -11,14 +11,19 @@
   <p>
     {{ rank }}
   </p>
-  <div class="container">
+  <div class="containerVert">
     <template v-for="(lane, group) in lanes" :key="lane">
       <div v-bind:class="{
         'order1': group == 'prefLevel',
         'order2': group == 'champPool'
       }">
         <h4>
-          {{group}}
+          <template v-if="group == 'prefLevel'">
+            Lane Preference
+          </template>
+          <template v-if="group == 'champPool'">
+            Champion Pool
+          </template>
         </h4>
         <p v-for="(lan, useless, i) in lane" :key="lan">
           <template v-if="group == 'prefLevel'">
@@ -29,9 +34,68 @@
       </div>
     </template>
   </div>
-  <p>
-    {{ matches }}
-  </p>
+  <div>
+    <hr>
+    <div class="containerVert match" v-for="(match) in matches" :key="match" v-bind:class="{
+      'won1': match['players'][1].name == name && match['players'][1].team == match['winner'],
+      'won2': match['players'][2].name == name && match['players'][2].team == match['winner'],
+      'won3': match['players'][3].name == name && match['players'][3].team == match['winner'],
+      'won4': match['players'][4].name == name && match['players'][4].team == match['winner'],
+      'won5': match['players'][5].name == name && match['players'][5].team == match['winner'],
+      'won6': match['players'][6].name == name && match['players'][6].team == match['winner'],
+      'won7': match['players'][7].name == name && match['players'][7].team == match['winner'],
+      'won8': match['players'][8].name == name && match['players'][8].team == match['winner'],
+      'won9': match['players'][9].name == name && match['players'][9].team == match['winner'],
+      'won10': match['players'][10].name == name && match['players'][10].team == match['winner']
+    }">
+      <div v-for="(data, dataTitle) in match" :key="data" v-bind:class="{
+        'order1': dataTitle == 'teams',
+        'order2': dataTitle == 'players',
+        'order3': dataTitle == 'time',
+        'order4': dataTitle == 'winner'
+      }">
+        <template v-if="dataTitle == 'teams'">
+          <div class="container">
+            <div v-for="team in data" :key="team" style="margin: 5px 10px">
+              {{ team }}
+            </div>
+          </div>
+        </template>
+
+        <div v-if="dataTitle == 'players'" class="container">
+          <div>
+            <template v-for="player in data" :key="player">
+              <template v-if="player.team == 1">
+                <div>
+                  {{player.name}}
+                </div>
+              </template>
+            </template>
+          </div>
+          <div>
+            vs
+          </div>
+          <div>
+            <template v-for="player in data" :key="player">
+              <template v-if="player.team == 2">
+                <div>
+                  {{player.name}}
+                </div>
+              </template>
+            </template>
+          </div>
+        </div>
+        
+        <template v-if="dataTitle == 'time'">
+          {{ data.toDate().toDateString() }}
+        </template>
+        
+        <template v-if="dataTitle == 'winner'">
+          Winner: {{ match['teams'][data] }}
+        </template>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -63,11 +127,11 @@ export default{
             name.value = data[0].lolName
             rank.value = data[0].rank
             lanes.value = data[0].lanes
-            matches.value = data[0].matches
             
             getMatchesByPlayer(data[0].lolName)
               .then(data => {
                 matches.value = data
+                console.log(data[0]['teams'])
               })
           })
           
@@ -84,9 +148,13 @@ export default{
 </script>
 
 <style lang="scss" scoped>
-  .container{
+  .containerVert{
     display: flex;
     flex-direction: column;
+  }
+  .container{
+    display: flex;
+    justify-content: center;
   }
 
   .order1{
@@ -94,5 +162,19 @@ export default{
   }
   .order2{
     order: 2
+  }
+  .order3{
+    order: 3
+  }
+  .order4{
+    order: 4
+  }
+
+  .match{
+    background: #F00;
+  }
+
+  .won1, .won2, .won3, .won4, .won5, .won6, .won7, .won8, .won9, .won10 {
+    background: #0F0 !important;
   }
 </style>
