@@ -22,7 +22,7 @@
             Lane Preference
           </template>
           <template v-if="group == 'champPool'">
-            Champion Pool
+            Favorite Champions
           </template>
         </h4>
         <p v-for="(lan, useless, i) in lane" :key="lan">
