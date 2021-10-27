@@ -34,11 +34,9 @@ const championsCollection = db.collection('champions')
 /*const matchesCollection = db.collection('matches')*/
 
 
-/* Fine italian pasta ---------------------------------------------------*/
-
 export const getChampions = async () => {
     try {
-        const champions = await championsCollection.doc("QhLJT5VYNbWjpDAkWJXE").get().then()
+        const champions = await championsCollection.doc("QhLJT5VYNbWjpDAkWJXE").get()
         return champions.exists ? champions.data() : null
     } 
 
@@ -46,12 +44,6 @@ export const getChampions = async () => {
         err => console.error('This is burning🔥 ', err)
     }
 }
-
-export const champs = getChampions()
-    .then(champions => champions.champions[53])
-    .catch(err => console.error('This is burning🔥 ', err))
-
-/* End of spagetti code---------------------------------------------------*/
 
 
 export const getAllMatches = async () => {

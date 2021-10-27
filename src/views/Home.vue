@@ -1,24 +1,22 @@
 <template>
-  This nerd likes to play {{ champions.champion }}
+  This nerd likes to play {{ champion }}
 </template>
 
 <script>
-import { champs } from '@/main.js'
-import { reactive } from '@vue/reactivity'
+import { ref } from 'vue'
+import { getChampions } from '@/main.js'
 
 export default {
   setup(){
 
-    const champions = reactive({
-      champion: champs
-    })
+    const champion = ref("")
 
-    /* Fine italian pasta ---------------------------------------------------*/
-    champions.champion
-      .then(cmp => champions.champion = cmp)
-    /* End of spagetti code ---------------------------------------------------*/
+    getChampions()
+      .then(data => {
+        champion.value = data['champions'][53]
+      })
   
-    return { champions };
+    return { champion };
   },
 
   name: 'Home',
