@@ -27,9 +27,16 @@ export default{
             firebase
                 .auth()
                 .signInWithEmailAndPassword(email.value, password.value)
-                .then(data => console.log("Brænder det?", data))
                 .catch(err => alert(err.message))
         }
+
+        //Nope you don't belong here check
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                window.location.href = '/'
+            }
+        });
+
         return {
             Login,
             email,
