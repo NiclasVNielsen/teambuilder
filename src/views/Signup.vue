@@ -63,18 +63,6 @@ export default{
               });
         }
 
-
-        /* function createUserData(userId, name, rank, lanes) {
-            console.log('Meep', userId, name, rank, lanes)
-            const db = getDatabase();
-            set(firebaseRef(db, 'users/' + userId), {
-                authId: userId,
-                lolName: name,
-                rank: rank,
-                lanes : lanes
-            });
-        } */
-
         return { email, password, Signup, name, rank, lanes }
     }
 }
