@@ -3,7 +3,7 @@
     Pirate says
   </div>
 
-  plz work 😭 = {{ champions.champion }}
+  This nerd likes to play {{ champions.champion }}
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
     /* Fine italian pasta ---------------------------------------------------*/
     champions.champion
       .then(cmp => champions.champion = cmp)
-    /* End of spagetti code---------------------------------------------------*/
+    /* End of spagetti code ---------------------------------------------------*/
   
     return { champions };
   },

@@ -1,4 +1,4 @@
-import { collection, query, getDocs } from "firebase/firestore"
+import { collection, query, where, getDocs } from "firebase/firestore"
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -27,10 +27,10 @@ const db = firebaseApp.firestore()
 
 
 const championsCollection = db.collection('champions')
+/*const usersCollection = db.collection('users') 
 /*const ranksCollection = db.collection('ranks')
 /*const teamsCollection = db.collection('teams')
 /*const tournamentsCollection = db.collection('tournaments')
-/*const usersCollection = db.collection('users') 
 /*const matchesCollection = db.collection('matches')*/
 
 
@@ -48,7 +48,7 @@ export const getChampions = async () => {
 }
 
 export const champs = getChampions()
-    .then(champions => champions.champions[Math.floor(Math.random() * 157)])
+    .then(champions => champions.champions[53])
     .catch(err => console.error('This is burning🔥 ', err))
 
 /* End of spagetti code---------------------------------------------------*/
@@ -136,8 +136,6 @@ export const getRanks = async () => {
             ranks = doc.data()
         })
 
-        console.log(ranks[1]) /*TESTING*/
-
         return ranks
     } 
 
@@ -205,6 +203,25 @@ export const getAllUsers = async () => {
         console.log(users[0]['lanes']['champPool']) /* TESTING */
 
         return users
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+export const getUser = async (id) => {
+    try {
+        const user = []
+
+        let q = query(collection(db, "users"), where("authId", "==", id))
+    
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            user.push(doc.data())
+        })
+
+        return user
     } 
 
     catch {
