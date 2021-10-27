@@ -23,7 +23,7 @@
         <template v-if="dataTitle == 'teams'">
           <div class="container">
             <div v-for="team in data" :key="team" style="margin: 5px 10px">
-              {{ team }}
+                <a :href="'/team/' + team">{{team}}</a>
             </div>
           </div>
         </template>

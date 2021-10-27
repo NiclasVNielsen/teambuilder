@@ -57,7 +57,7 @@
         <template v-if="dataTitle == 'teams'">
           <div class="container">
             <div v-for="team in data" :key="team" style="margin: 5px 10px">
-              {{ team }}
+              <router-link :to="{path: '/team/' + team}">{{ team }}</router-link>
             </div>
           </div>
         </template>
