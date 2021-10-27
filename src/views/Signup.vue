@@ -23,7 +23,6 @@
 </template>
 
 <script>
-//import firebase from 'firebase/compat/app'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { createUser } from '@/main.js'
 import { ref } from 'vue'
@@ -37,12 +36,6 @@ export default{
         const rank = ref('')
         const lanes = ref('')
 
-        //Nope you don't belong here check
-        /* firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                window.location.href = '/'
-            }
-        }); */
 
         const Signup = () => {
             const auth = getAuth();
@@ -55,6 +48,7 @@ export default{
                 console.log(user.uid)
 
                 createUser(userId.value, name.value, rank.value, lanes.value)
+                    .then(() => window.location.href = '/')
               })
               .catch((error) => {
                 console.error('Error code: ', error.code);
