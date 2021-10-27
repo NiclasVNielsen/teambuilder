@@ -1,8 +1,4 @@
 <template>
-  <div class="home">
-    Pirate says
-  </div>
-
   This nerd likes to play {{ champions.champion }}
 </template>
 
