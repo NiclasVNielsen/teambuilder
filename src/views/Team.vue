@@ -9,12 +9,65 @@
           </div>
       </template>
   </div>
+  <div>
+    <hr>
+    <div class="containerVert match" v-for="(match) in matches" :key="match" v-bind:class="{
+      'won': name == match['teams'][match['winner']]
+    }">
+      <div v-for="(data, dataTitle) in match" :key="data" v-bind:class="{
+        'order1': dataTitle == 'teams',
+        'order2': dataTitle == 'players',
+        'order3': dataTitle == 'time',
+        'order4': dataTitle == 'winner'
+      }">
+        <template v-if="dataTitle == 'teams'">
+          <div class="container">
+            <div v-for="team in data" :key="team" style="margin: 5px 10px">
+              {{ team }}
+            </div>
+          </div>
+        </template>
+
+        <div v-if="dataTitle == 'players'" class="container">
+          <div>
+            <template v-for="player in data" :key="player">
+              <template v-if="player.team == 1">
+                <div>
+                  <a :href="'/player/' + player.name">{{player.name}}</a>
+                </div>
+              </template>
+            </template>
+          </div>
+          <div>
+            vs
+          </div>
+          <div>
+            <template v-for="player in data" :key="player">
+              <template v-if="player.team == 2">
+                <div>
+                  <a :href="'/player/' + player.name">{{player.name}}</a>
+                </div>
+              </template>
+            </template>
+          </div>
+        </div>
+        
+        <template v-if="dataTitle == 'time'">
+          {{ data.toDate().toDateString() }}
+        </template>
+        
+        <template v-if="dataTitle == 'winner'">
+          Winner: {{ match['teams'][data] }}
+        </template>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getTeamByName/* , getMatchesByPlayer */ } from '@/main.js'
+import { getTeamByName, getMatchesByTeam } from '@/main.js'
 
 export default{
     setup() {
@@ -28,11 +81,10 @@ export default{
                 name.value = data[0].teamName
                 members.value = data[0].members
                 
-                /* getMatchesByPlayer(data[0].teamName)
+                getMatchesByTeam(data[0].teamName)
                     .then(data => {
                         matches.value = data
                     })
-                 */
             })
 
         return {
@@ -69,7 +121,7 @@ export default{
     background: #F00;
   }
 
-  .won1, .won2, .won3, .won4, .won5, .won6, .won7, .won8, .won9, .won10 {
+  .won{
     background: #0F0 !important;
   }
 </style>
