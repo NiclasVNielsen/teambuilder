@@ -24,7 +24,6 @@
 
 <script>
 //import firebase from 'firebase/compat/app'
-//import { getDatabase, ref as firebaseRef, set } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { createUser } from '@/main.js'
 import { ref } from 'vue'
