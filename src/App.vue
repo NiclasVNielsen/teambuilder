@@ -12,7 +12,11 @@
 
     <form action="" method="get">
       <input type="text" placeholder="Player" v-model="player" name="player">
-      <button type="submit" @click.stop.prevent="submit()">Search</button>
+      <button type="submit" @click.stop.prevent="submitPlayer()">Search</button>
+    </form>
+    <form action="" method="get">
+      <input type="text" placeholder="Team" v-model="team" name="team">
+      <button type="submit" @click.stop.prevent="submitTeam()">Search</button>
     </form>
   </div>
   <router-view/>
@@ -26,6 +30,7 @@ export default {
   setup(){
     let userEmail = ref("")
     let player = ref("")
+    let team = ref("")
 
     const isLoggedIn = ref(false)
     firebase.auth().onAuthStateChanged(function(user) {
@@ -45,13 +50,16 @@ export default {
         .catch(err => alert(err.message))
     }
 
-    const submit = () => {
-      console.log(player.value)
+    const submitPlayer = () => {
       window.location.href = `/player/${player.value}`
+    }
+
+    const submitTeam = () => {
+      window.location.href = `/team/${team.value}`
     }
     
     return { 
-      userEmail, isLoggedIn, Logout, submit, player
+      userEmail, isLoggedIn, Logout, submitPlayer, submitTeam, player, team
     }
   }
 }

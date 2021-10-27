@@ -164,6 +164,25 @@ export const getAllTeams = async () => {
     }
 }
 
+export const getTeamByName = async (name) => {
+    try {
+        const team = []
+
+        let q = query(collection(db, "teams"), where("teamName", "==", name))
+    
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            team.push(doc.data())
+        })
+
+        return team
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
 
 export const getAllTournaments = async () => {
     try {
