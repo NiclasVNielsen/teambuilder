@@ -65,8 +65,6 @@ export const getAllMatches = async () => {
             matches.push(doc.data())
         })
 
-        console.log(matches)
-
         return matches
     } 
 
@@ -91,7 +89,7 @@ export const getMatchesByPlayer = async (player) => {
                 }
             }
         })
-        console.log(matches)
+
         return matches
     } 
 
@@ -115,7 +113,7 @@ export const getMatchesByTeam = async (team) => {
                 }
             }
         })
-        console.log(matches)
+        
         return matches
     } 
 

@@ -37,7 +37,7 @@
 <script>
 import firebase from 'firebase/compat/app'
 import { ref } from 'vue'
-import { getUser, getRanks } from '@/main.js'
+import { getUser, getRanks, getMatchesByPlayer } from '@/main.js'
 
 export default{
     setup() {
@@ -64,6 +64,11 @@ export default{
             rank.value = data[0].rank
             lanes.value = data[0].lanes
             matches.value = data[0].matches
+            
+            getMatchesByPlayer(data[0].lolName)
+              .then(data => {
+                matches.value = data
+              })
           })
           
         getRanks()
