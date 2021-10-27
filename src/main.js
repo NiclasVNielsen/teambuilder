@@ -1,5 +1,4 @@
 import { collection, query, where, getDocs } from "firebase/firestore"
-//import { ref as firebaseRef, set } from "firebase/database";
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
