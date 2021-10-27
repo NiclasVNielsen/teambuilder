@@ -14,10 +14,6 @@
       <input type="text" placeholder="Player" v-model="player" name="player">
       <button type="submit" @click.stop.prevent="submit()">Search</button>
     </form>
-
-    <div>
-      User: {{ userEmail }}
-    </div>
   </div>
   <router-view/>
 </template>

@@ -3,13 +3,13 @@
     This is you!
   </div>
   <p>
-    {{ email }}
+    Email: {{ email }}
   </p>
   <p>
-    {{ name }}
+    Summoner Name: {{ name }}
   </p>
   <p>
-    {{ rank }}
+    Rank: {{ rank }}
   </p>
   <div class="containerVert">
     <template v-for="(lane, group) in lanes" :key="lane">
