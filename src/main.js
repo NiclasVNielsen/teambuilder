@@ -1,4 +1,5 @@
 import { collection, query, where, getDocs } from "firebase/firestore"
+//import { ref as firebaseRef, set } from "firebase/database";
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -27,7 +28,7 @@ const db = firebaseApp.firestore()
 
 
 const championsCollection = db.collection('champions')
-/*const usersCollection = db.collection('users') 
+const usersCollection = db.collection('users') 
 /*const ranksCollection = db.collection('ranks')
 /*const teamsCollection = db.collection('teams')
 /*const tournamentsCollection = db.collection('tournaments')
@@ -257,6 +258,15 @@ export const getUserByName = async (name) => {
     }
 }
 
+export const createUser = async (userId, name, rank, lanes) => {
+    console.log('Meep', userId, name, rank, lanes)
+    return usersCollection.add({
+        authId: userId,
+        lolName: name,
+        rank: rank,
+        lanes: lanes
+    })
+}
 
 createApp(App).use(store).use(router).mount('#app')
 

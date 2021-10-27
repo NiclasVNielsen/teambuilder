@@ -7,7 +7,8 @@
       <button class="logout" @click="Logout">Log out</button>
     </template>
     <template v-if="!isLoggedIn">
-      <router-link to="/login">Login</router-link>
+      <router-link to="/login">Login</router-link> |
+      <router-link to="/signup">Sign up</router-link>
     </template>
 
     <form action="" method="get">

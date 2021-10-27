@@ -8,7 +8,6 @@ import { getChampions } from '@/main.js'
 
 export default {
   setup(){
-
     const champion = ref("")
 
     getChampions()
