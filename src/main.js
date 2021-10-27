@@ -6,6 +6,7 @@ import store from './store'
 
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
+import 'firebase/compat/auth'
 
 
 
@@ -210,7 +211,6 @@ export const getAllUsers = async () => {
         err => console.error('This is burning🔥 ', err)
     }
 }
-getAllUsers()
 
 
 createApp(App).use(store).use(router).mount('#app')
