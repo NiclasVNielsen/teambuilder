@@ -16,7 +16,7 @@
                 <input type="text" name="rank" id="rank" placeholder="Rank" v-model="rank">
                 <!-- <label for="text">lanes</label>
                 <input type="text" name="email" id="email" placeholder="Email" v-model="email"> -->
-                <button type="submit">Login</button>
+                <button type="submit">Sign up</button>
             </form>
         </div>
     </div>
