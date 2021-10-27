@@ -9,6 +9,12 @@
     <template v-if="!isLoggedIn">
       <router-link to="/login">Login</router-link>
     </template>
+
+    <form action="" method="get">
+      <input type="text" placeholder="Player" v-model="player" name="player">
+      <button type="submit" @click.stop.prevent="submit()">Search</button>
+    </form>
+
     <div>
       User: {{ userEmail }}
     </div>
@@ -23,6 +29,7 @@ import firebase from 'firebase/compat/app'
 export default {
   setup(){
     let userEmail = ref("")
+    let player = ref("")
 
     const isLoggedIn = ref(false)
     firebase.auth().onAuthStateChanged(function(user) {
@@ -41,9 +48,14 @@ export default {
         .signOut()
         .catch(err => alert(err.message))
     }
+
+    const submit = () => {
+      console.log(player.value)
+      window.location.href = `/player/${player.value}`
+    }
     
     return { 
-      userEmail, isLoggedIn, Logout
+      userEmail, isLoggedIn, Logout, submit, player
     }
   }
 }

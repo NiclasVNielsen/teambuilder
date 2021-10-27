@@ -208,11 +208,30 @@ export const getAllUsers = async () => {
     }
 }
 
-export const getUser = async (id) => {
+export const getUserById = async (id) => {
     try {
         const user = []
 
         let q = query(collection(db, "users"), where("authId", "==", id))
+    
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            user.push(doc.data())
+        })
+
+        return user
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+export const getUserByName = async (name) => {
+    try {
+        const user = []
+
+        let q = query(collection(db, "users"), where("lolName", "==", name))
     
         const querySnapshot = await getDocs(q)
         querySnapshot.forEach((doc) => {
