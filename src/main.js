@@ -146,8 +146,6 @@ export const getAllTeams = async () => {
             teams.push(doc.data())
         })
 
-        console.log(teams[0]['members']) /* TESTING */
-
         return teams
     } 
 
@@ -186,8 +184,6 @@ export const getAllTournaments = async () => {
         querySnapshot.forEach((doc) => {
             tournaments.push(doc.data())
         })
-
-        console.log(tournaments[0]['desc']) /* TESTING */
 
         return tournaments
     } 
@@ -258,7 +254,6 @@ export const getUserByName = async (name) => {
 }
 
 export const createUser = async (userId, name, rank, lanes) => {
-    console.log('Meep', userId, name, rank, lanes)
     return usersCollection.add({
         authId: userId,
         lolName: name,
