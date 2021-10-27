@@ -67,7 +67,7 @@
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 1">
                 <div>
-                  {{player.name}}
+                  <router-link :to="{path: '/player/' + player.name}">{{player.name}}</router-link>
                 </div>
               </template>
             </template>
@@ -79,7 +79,7 @@
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 2">
                 <div>
-                  {{player.name}}
+                  <router-link :to="{path: '/player/' + player.name}">{{player.name}}</router-link>
                 </div>
               </template>
             </template>

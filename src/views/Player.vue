@@ -61,7 +61,7 @@
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 1">
                 <div>
-                  {{player.name}}
+                  <a :href="'/player/' + player.name">{{player.name}}</a>
                 </div>
               </template>
             </template>
@@ -73,7 +73,7 @@
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 2">
                 <div>
-                  {{player.name}}
+                  <a :href="'/player/' + player.name">{{player.name}}</a>
                 </div>
               </template>
             </template>
