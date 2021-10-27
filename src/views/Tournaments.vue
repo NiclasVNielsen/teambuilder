@@ -2,6 +2,7 @@
   <div>
       Tournaments
   </div>
+  <hr>
 
   <div v-for="tournament in tournaments" :key="tournament">
       <div>
@@ -11,7 +12,7 @@
         {{ tournament['desc'] }}
       </div>
       <div>
-        {{ tournament['amountOfTeams'] }}
+        Max number of teams: {{ tournament['amountOfTeams'] }}
       </div>
       <div>
         {{ tournament['icon'] }}
@@ -28,6 +29,7 @@
               {{ team }}
           </div>
       </div>
+      <hr>
   </div>
 </template>
 
