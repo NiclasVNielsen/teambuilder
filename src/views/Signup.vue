@@ -33,8 +33,8 @@
                 <br>
 
                 <select name="champions" id="champions" multiple>
-                    <template v-for="(champs, i) in champions" :key="champs">
-                        <option :value="i">{{champs}}</option>
+                    <template v-for="(champs) in champions" :key="champs">
+                        <option :value="champs">{{champs}}</option>
                     </template>
                 </select>
 
@@ -100,7 +100,6 @@ export default{
         getChampions()
             .then(data => {
                 champions.value = data['champions']
-                console.log(champions.value)
             })
 
         const laneOrderCalc = () => {
@@ -116,8 +115,6 @@ export default{
             lanes.value['prefLevel']['3'] = laneOrder[2]
             lanes.value['prefLevel']['4'] = laneOrder[3]
             lanes.value['prefLevel']['5'] = laneOrder[4]
-            console.log(laneOrder)
-            console.log(lanes.value)
             return laneOrder
         }
 
