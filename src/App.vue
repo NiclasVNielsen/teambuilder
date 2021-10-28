@@ -78,7 +78,6 @@ export default {
     }
     
     const acceptInv = (team) => {
-      console.log(loggedInUser.value, team)
       acceptTeamInvite(team, loggedInUser.value)
     }
     

@@ -304,22 +304,43 @@ export const teamLogoUpload = async (file) => {
 export const sendTeamInvite = async (team, player) => {
     try {
         //needs to check if player is already in the team
-        const user = []
-        const invites = []
+        const members = []
 
-        let q = query(collection(db, "users"), where("lolName", "==", player))
+        let x = query(collection(db, "teams"), where("teamName", "==", team))
     
-        const querySnapshot = await getDocs(q)
-        querySnapshot.forEach((doc) => {
-            user.push(doc.id)
-            invites.push(doc.data().invitations)
+        const querySnapshotx = await getDocs(x)
+        querySnapshotx.forEach((doc) => {
+            members.push(doc.data().members)
         })
 
-        invites[0].push(team)
+        let alreadyInTeam = false
+        members[0].forEach(member => {
+            if(member == player){
+                alreadyInTeam = true
+            }
+        })
 
-        usersCollection.doc(user[0]).update({
-            invitations: invites[0]
-        });
+        console.log(alreadyInTeam)
+        console.log(player)
+
+        if(alreadyInTeam == false){
+            const user = []
+            const invites = []
+    
+            let q = query(collection(db, "users"), where("lolName", "==", player))
+        
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach((doc) => {
+                user.push(doc.id)
+                invites.push(doc.data().invitations)
+            })
+    
+            invites[0].push(team)
+    
+            usersCollection.doc(user[0]).update({
+                invitations: invites[0]
+            });
+        }
     } 
 
     catch {

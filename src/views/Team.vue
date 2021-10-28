@@ -5,7 +5,7 @@
   <div v-if="user == owner">
     You are the owner you should totally be able to invite people here
     <form>
-      <input type="text" placeholder="Player" v-model="player" name="player">
+      <input type="text" placeholder="Player" v-model="invPlayer" name="player">
       <button type="submit" @click.stop.prevent="invite()">Invite</button>
     </form>
   </div>
@@ -103,7 +103,7 @@ export default{
         let owner = ref('')
         let user = ref('')
         let player = ref('')
-        let userId = ref('')
+        let invPlayer = ref('')
 
         onBeforeUpdate(() => {
           const auth = getAuth();
@@ -111,7 +111,6 @@ export default{
           getUserById(auth.currentUser.uid)
             .then(data => {
               user.value = data[0].lolName
-              userId.value = data[0].authId
             })
         })
 
@@ -130,11 +129,11 @@ export default{
             })
 
         const invite = () => {
-          sendTeamInvite(name.value, user.value)
+          sendTeamInvite(name.value, invPlayer.value)
         }
 
         return {
-            name, members, matches, owner, user, invite, player
+            name, members, matches, owner, user, invite, player, invPlayer
         }
     }
 }
