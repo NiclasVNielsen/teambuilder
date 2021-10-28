@@ -14,7 +14,9 @@
   <p>
     Teams: 
     <template v-for="team in teams" :key="team">
-      {{ team.teamName }}
+      <a :href="'/team/' + team.teamName">
+        {{ team.teamName }}
+      </a>
     </template>
   </p>
   <div class="containerVert">
