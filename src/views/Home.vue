@@ -7,6 +7,7 @@
     <li>Make Tournaments</li>
     <li>Team sign up to tournament</li>
     <li>Edit profile</li>
+    <li>Leave team</li>
     <li>tournament control wins and loses</li>
   </ul>
 </template>
