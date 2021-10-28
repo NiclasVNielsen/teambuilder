@@ -13,6 +13,9 @@
       </template>
   </div>
   <div>
+    <img alt="team icon">
+  </div>
+  <div>
     <hr>
     <div class="containerVert match" v-for="(match) in matches" :key="match" v-bind:class="{
       'won': name == match['teams'][match['winner']]
@@ -72,19 +75,33 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getTeamByName, getMatchesByTeam } from '@/main.js'
 
+import { getStorage, ref as refrence, getDownloadURL } from "firebase/storage";
+//import firebase from 'firebase/compat/app'
+
 export default{
-    setup() {
+    setup() {        
+        const getTeamIcon = (icon) =>{
+          const storage = getStorage()
+          getDownloadURL(refrence(storage, icon))
+            .then(url => {
+              document.querySelector('img').src = url;
+            })
+        }
+
         const route = useRoute()
 
         let name = ref('')
+        let icon = ref('')
         let members = ref('')
         let matches = ref('')
         let owner = ref('')
         getTeamByName(route.params.teamname)
             .then(data => {
                 name.value = data[0].teamName
+                icon.value = data[0].teamIcon
                 members.value = data[0].members
                 owner.value = data[0].teamOwner
+                getTeamIcon(icon.value)
                 
                 getMatchesByTeam(data[0].teamName)
                     .then(data => {
