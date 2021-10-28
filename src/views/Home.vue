@@ -4,7 +4,6 @@
   <br>
   
   <ul>
-    <li>Make Teams</li>
     <li>Invite player to team</li>
     <li>Make Tournaments</li>
     <li>Team sign up to tournament</li>
