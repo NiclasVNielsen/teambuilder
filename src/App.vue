@@ -3,6 +3,7 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/tournaments">Tournaments</router-link> |
     <template v-if="isLoggedIn">  
+      <router-link to="/createteam">Create Team</router-link> |
       <router-link to="/profile">Profile</router-link> |
       <button class="logout" @click="Logout">Log out</button>
     </template>

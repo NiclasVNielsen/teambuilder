@@ -33,6 +33,11 @@ const routes = [
     component: () => import ('../views/Team.vue')
   },
   {
+    path: '/createteam/',
+    name: 'CreateTeam',
+    component: () => import ('../views/CreateTeam.vue')
+  },
+  {
     path: '/tournaments',
     name: 'Tournaments',
     component: () => import ('../views/Tournaments.vue')
