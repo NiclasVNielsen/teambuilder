@@ -22,21 +22,21 @@
                     <input type="text" name="rank" id="rank" placeholder="Rank" v-model="rank">
                 </div>
                 
+                <p>
+                    Lane Preference
+                </p>
                 <draggable  v-model="lanePref" item-key="id" @start="drag=true" @end="drag=false" id="lanePref">
                     <template #item="{element}">
                         <div>{{element.title}}</div>
                     </template>
                 </draggable>
+                <br>
 
-                <hr>
-                <p style="color:red;">
-                    this is just a <strong>&lcub;&lcub; lanePref &rcub;&rcub;</strong> thingy and not the <strong>draggable</strong>
-                </p>
-                <p style="color:red;">
-                    {{ lanePref }}
-                </p>
-                <hr>
-
+                <select name="champions" id="champions" multiple>
+                    <template v-for="(champs, i) in champions" :key="champs">
+                        <option :value="i">{{champs}}</option>
+                    </template>
+                </select>
 
                 <button type="submit">Sign up</button>
             </form>
@@ -46,7 +46,7 @@
 
 <script>
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { createUser } from '@/main.js'
+import { createUser, getChampions } from '@/main.js'
 import { ref } from 'vue'
 import draggable from 'vuedraggable'
 
@@ -89,12 +89,19 @@ export default{
         const rank = ref('')
         const lanes = ref({
             champPool: {
-
-            },
+                
+                },
             prefLevel: {
                 
-            }
+                }
         })
+        const champions = ref()
+
+        getChampions()
+            .then(data => {
+                champions.value = data['champions']
+                console.log(champions.value)
+            })
 
         const laneOrderCalc = () => {
             /* 
@@ -130,7 +137,7 @@ export default{
               });
         }
 
-        return { email, password, Signup, name, rank, lanes }
+        return { email, password, Signup, name, rank, lanes, champions }
     },
 }
 
