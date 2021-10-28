@@ -5,6 +5,12 @@
   <p>
     Rank: {{ rank }}
   </p>
+  <p>
+    Teams: 
+    <template v-for="team in teams" :key="team">
+      {{ team.teamName }}
+    </template>
+  </p>
   <div class="containerVert">
     <template v-for="(lane, group) in lanes" :key="lane">
       <div v-bind:class="{
@@ -95,7 +101,7 @@
 <script>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getUserByName, getRanks, getMatchesByPlayer } from '@/main.js'
+import { getUserByName, getRanks, getMatchesByPlayer, getTeamsByPlayer } from '@/main.js'
 
 export default{
     setup() {
@@ -105,6 +111,7 @@ export default{
         let rank = ref('')
         let lanes = ref('')
         let matches = ref('')
+        let teams = ref('')
         getUserByName(route.params.username)
             .then(data => {
             name.value = data[0].lolName
@@ -115,7 +122,10 @@ export default{
                 .then(data => {
                 matches.value = data
                 })
-                
+            getTeamsByPlayer(data[0].lolName)
+              .then(data => {
+                teams.value = data
+              })
             getRanks()
                 .then(rankData => {
                 rank.value = rankData[rank.value]
@@ -123,7 +133,7 @@ export default{
             })
 
         return {
-            name, rank, lanes, matches
+            name, rank, lanes, matches, teams
         }
     }
 }

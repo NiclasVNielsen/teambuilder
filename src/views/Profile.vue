@@ -11,6 +11,12 @@
   <p>
     Rank: {{ rank }}
   </p>
+  <p>
+    Teams: 
+    <template v-for="team in teams" :key="team">
+      {{ team.teamName }}
+    </template>
+  </p>
   <div class="containerVert">
     <template v-for="(lane, group) in lanes" :key="lane">
       <div v-bind:class="{
@@ -101,7 +107,7 @@
 <script>
 import firebase from 'firebase/compat/app'
 import { ref } from 'vue'
-import { getUserById, getRanks, getMatchesByPlayer } from '@/main.js'
+import { getUserById, getRanks, getMatchesByPlayer, getTeamsByPlayer } from '@/main.js'
 
 export default{
     setup() {
@@ -111,6 +117,7 @@ export default{
         let rank = ref('')
         let lanes = ref('')
         let matches = ref('')
+        let teams = ref('')
 
         firebase.auth().onAuthStateChanged(function(user) {
             //Nope you don't belong here check
@@ -131,6 +138,10 @@ export default{
                   .then(data => {
                     matches.value = data
                   })
+                getTeamsByPlayer(data[0].lolName)
+                  .then(data => {
+                    teams.value = data
+                  })
                 getRanks()
                   .then(rankData => {
                     rank.value = rankData[rank.value]
@@ -142,7 +153,7 @@ export default{
           
 
         return {
-            email, name, rank, lanes, matches
+            email, name, rank, lanes, matches, teams
         }
     }
 }

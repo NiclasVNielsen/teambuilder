@@ -154,6 +154,29 @@ export const getAllTeams = async () => {
     }
 }
 
+export const getTeamsByPlayer = async (player) => {
+    try {
+        const teams = []
+
+        const q = query(collection(db, "teams"))
+    
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            for(let i = 0; i < 5; i++){
+                if(doc.data().members[i] == player){
+                    teams.push(doc.data())
+                }
+            }
+        })
+
+        return teams
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
 export const getTeamByName = async (name) => {
     try {
         const team = []
@@ -204,8 +227,6 @@ export const getAllUsers = async () => {
         querySnapshot.forEach((doc) => {
             users.push(doc.data())
         })
-
-        console.log(users[0]['lanes']['champPool']) /* TESTING */
 
         return users
     } 
