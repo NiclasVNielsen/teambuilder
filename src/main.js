@@ -303,7 +303,6 @@ export const teamLogoUpload = async (file) => {
 
 export const sendTeamInvite = async (team, player) => {
     try {
-        //needs to check if player is already in the team
         const members = []
 
         let x = query(collection(db, "teams"), where("teamName", "==", team))
@@ -319,9 +318,6 @@ export const sendTeamInvite = async (team, player) => {
                 alreadyInTeam = true
             }
         })
-
-        console.log(alreadyInTeam)
-        console.log(player)
 
         if(alreadyInTeam == false){
             const user = []
