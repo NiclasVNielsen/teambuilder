@@ -5,17 +5,41 @@
                 Sign up
             </h1>
             <form @submit.prevent="Signup">
-                <label for="email">Email</label>
-                <input type="text" name="email" id="email" placeholder="Email" v-model="email">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Password" v-model="password">
-                
-                <label for="text">Summoner Name</label>
-                <input type="text" name="name" id="name" placeholder="Summoner Name" v-model="name">
-                <label for="text">Rank</label>
-                <input type="text" name="rank" id="rank" placeholder="Rank" v-model="rank">
+                <div>
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" placeholder="Email" v-model="email">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password" v-model="password">
+                </div>
+                <div>
+                    <label for="text">Summoner Name</label>
+                    <input type="text" name="name" id="name" placeholder="Summoner Name" v-model="name">
+                </div>
+                <div>
+                    <label for="text">Rank</label>
+                    <input type="text" name="rank" id="rank" placeholder="Rank" v-model="rank">
+                </div>
                 <!-- <label for="text">lanes</label>
                 <input type="text" name="email" id="email" placeholder="Email" v-model="email"> -->
+                
+                <draggable  v-model="lanePref" item-key="id" @start="drag=true" @end="drag=false" id="lanePref">
+                    <template #item="{element}">
+                        <div>{{element.title}}</div>
+                    </template>
+                </draggable>
+
+                <hr>
+                <p style="color:red;">
+                    this is just a <strong>&lcub;&lcub; lanePref &rcub;&rcub;</strong> thingy and not the <strong>draggable</strong>
+                </p>
+                <p style="color:red;">
+                    {{ lanePref }}
+                </p>
+                <hr>
+
+
                 <button type="submit">Sign up</button>
             </form>
         </div>
@@ -25,17 +49,68 @@
 <script>
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { createUser } from '@/main.js'
-import { ref } from 'vue'
+import { ref/* , onMounted */  } from 'vue'
+import draggable from 'vuedraggable'
 
 export default{
+    components: {
+        draggable,
+    },
+    data() {
+        return {
+            drag: false,
+            lanePref: [
+                {
+                    'id': 1,
+                    'title': 'top'
+                },
+                {
+                    'id': 2,
+                    'title': 'jungle'
+                },
+                {
+                    'id': 3,
+                    'title': 'mid'
+                },
+                {
+                    'id': 4,
+                    'title': 'adc'
+                },
+                {
+                    'id': 5,
+                    'title': 'support'
+                }
+            ]
+        }
+    },
     setup(){
         const email = ref('')
         const password = ref('')
         const userId = ref('')
         const name = ref('')
         const rank = ref('')
-        const lanes = ref('')
+        const lanes = ref({
+            champPool: {
 
+            },
+            prefLevel: {
+                
+            }
+        })
+
+        const laneOrderCalc = () => {
+            let laneOrder = document.querySelector('#lanePref').innerHTML
+            laneOrder = laneOrder.split(/[<>]/g)
+            laneOrder = [laneOrder[2], laneOrder[6], laneOrder[10], laneOrder[14], laneOrder[18]]
+            lanes.value['prefLevel']['1'] = laneOrder[0]
+            lanes.value['prefLevel']['2'] = laneOrder[1]
+            lanes.value['prefLevel']['3'] = laneOrder[2]
+            lanes.value['prefLevel']['4'] = laneOrder[3]
+            lanes.value['prefLevel']['5'] = laneOrder[4]
+            console.log(laneOrder)
+            console.log(lanes.value)
+            return laneOrder
+        }
 
         const Signup = () => {
             const auth = getAuth();
@@ -43,12 +118,10 @@ export default{
               .then((userCredential) => {
                 const user = userCredential.user;
                 userId.value = user.uid
-
-                console.log(user)
-                console.log(user.uid)
+                laneOrderCalc()
 
                 createUser(userId.value, name.value, rank.value, lanes.value)
-                    .then(() => window.location.href = '/')
+                    //.then(() => window.location.href = '/')
               })
               .catch((error) => {
                 console.error('Error code: ', error.code);
@@ -57,7 +130,7 @@ export default{
         }
 
         return { email, password, Signup, name, rank, lanes }
-    }
+    },
 }
 
 </script>
