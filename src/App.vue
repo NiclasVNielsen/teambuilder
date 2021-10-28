@@ -21,31 +21,47 @@
       <button type="submit" @click.stop.prevent="submitTeam()">Search</button>
     </form>
   </div>
+  <div v-if="invites.length != 0">
+    <p>
+      invites
+    </p>
+    <template v-for="inv in invites" :key="inv">
+      <div>
+        {{inv}}
+        <button type="submit" @click.stop.prevent="acceptInv(inv)">Accept</button>
+      </div>
+    </template>
+  </div>
+  <hr>
   <router-view/>
 </template>
 
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
+import { getUserById } from '@/main.js'
 
 export default {
   setup(){
-    let userEmail = ref("")
     let player = ref("")
     let team = ref("")
+    let invites = ref("")
 
     const isLoggedIn = ref(false)
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           isLoggedIn.value = true
-          userEmail.value = user.email
+          getUserById(user.uid)
+            .then(data => {
+              console.log(data[0].invitations)
+              invites.value = data[0].invitations
+            })
         } else {
           isLoggedIn.value = false
         }
     })
 
     const Logout = () => {
-      userEmail.value = "Nope"
       firebase
         .auth()
         .signOut()
@@ -61,7 +77,7 @@ export default {
     }
     
     return { 
-      userEmail, isLoggedIn, Logout, submitPlayer, submitTeam, player, team
+      isLoggedIn, Logout, submitPlayer, submitTeam, player, team, invites
     }
   }
 }
