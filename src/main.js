@@ -303,13 +303,6 @@ export const teamLogoUpload = async (file) => {
 
 export const sendTeamInvite = async (team, player) => {
     try {
-        /* await setDoc(doc(db, "users", player), {
-            invitations: ['meep']
-        }); */
-
-
-        // get id of doc where id = player
-
         const user = []
         const invites = []
 
@@ -321,16 +314,61 @@ export const sendTeamInvite = async (team, player) => {
             invites.push(doc.data().invitations)
         })
 
-        console.log(user[0])
-        console.log(invites[0])
-
         invites[0].push(team)
 
         usersCollection.doc(user[0]).update({
             invitations: invites[0]
         });
+    } 
 
-        console.log(team, ' send an invite to ', player)
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+export const acceptTeamInvite = async (team, player) => {
+    try {
+        const teams = []
+        const members = []
+
+        let q = query(collection(db, "teams"), where("teamName", "==", team))
+    
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            teams.push(doc.id)
+            members.push(doc.data().members)
+        })
+
+
+        members[0].push(player)
+
+        teamsCollection.doc(teams[0]).update({
+            members: members[0]
+        });
+
+        //clean invs from team
+        const user = []
+        const invites = []
+
+        let x = query(collection(db, "users"), where("lolName", "==", player))
+    
+        const querySnapshotx = await getDocs(x)
+        querySnapshotx.forEach((doc) => {
+            user.push(doc.id)
+            invites.push(doc.data().invitations)
+        })
+
+        const newInvs = []
+
+        invites[0].forEach(inv => {
+            if(inv != team){
+                newInvs.push(inv)
+            }
+        })
+
+        usersCollection.doc(user[0]).update({
+            invitations: newInvs
+        });
     } 
 
     catch {

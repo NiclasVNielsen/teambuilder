@@ -39,22 +39,23 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById } from '@/main.js'
+import { getUserById, acceptTeamInvite } from '@/main.js'
 
 export default {
   setup(){
-    let player = ref("")
-    let team = ref("")
-    let invites = ref("")
-
+    const player = ref("")
+    const team = ref("")
+    const invites = ref("")
+    const loggedInUser = ref("")
     const isLoggedIn = ref(false)
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           isLoggedIn.value = true
           getUserById(user.uid)
             .then(data => {
-              console.log(data[0].invitations)
               invites.value = data[0].invitations
+              loggedInUser.value = data[0].lolName
             })
         } else {
           isLoggedIn.value = false
@@ -76,8 +77,13 @@ export default {
       window.location.href = `/team/${team.value}`
     }
     
+    const acceptInv = (team) => {
+      console.log(loggedInUser.value, team)
+      acceptTeamInvite(team, loggedInUser.value)
+    }
+    
     return { 
-      isLoggedIn, Logout, submitPlayer, submitTeam, player, team, invites
+      isLoggedIn, Logout, submitPlayer, submitTeam, player, team, invites, acceptInv
     }
   }
 }
