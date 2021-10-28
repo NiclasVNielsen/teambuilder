@@ -1,10 +1,9 @@
-import { collection, query, where, getDocs } from "firebase/firestore"
+import { collection, query, where, getDocs/* , doc, setDoc */ } from "firebase/firestore"
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
@@ -303,7 +302,40 @@ export const teamLogoUpload = async (file) => {
 }
 
 export const sendTeamInvite = async (team, player) => {
-    console.log(team, ' send an invite to ', player)
+    try {
+        /* await setDoc(doc(db, "users", player), {
+            invitations: ['meep']
+        }); */
+
+
+        // get id of doc where id = player
+
+        const user = []
+        const invites = []
+
+        let q = query(collection(db, "users"), where("authId", "==", player))
+    
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            user.push(doc.id)
+            invites.push(doc.data().invitations)
+        })
+
+        console.log(user[0])
+        console.log(invites[0])
+
+        invites[0].push(team)
+
+        usersCollection.doc(user[0]).update({
+            invitations: invites[0]
+        });
+
+        console.log(team, ' send an invite to ', player)
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
 }
 
 createApp(App).use(store).use(router).mount('#app')

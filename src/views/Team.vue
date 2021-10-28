@@ -103,12 +103,16 @@ export default{
         let owner = ref('')
         let user = ref('')
         let player = ref('')
+        let userId = ref('')
 
         onBeforeUpdate(() => {
           const auth = getAuth();
   
           getUserById(auth.currentUser.uid)
-            .then(data => user.value = data[0].lolName)
+            .then(data => {
+              user.value = data[0].lolName
+              userId.value = data[0].authId
+            })
         })
 
         getTeamByName(route.params.teamname)
@@ -126,7 +130,7 @@ export default{
             })
 
         const invite = () => {
-          sendTeamInvite(name.value, player.value)
+          sendTeamInvite(name.value, userId.value)
         }
 
         return {
