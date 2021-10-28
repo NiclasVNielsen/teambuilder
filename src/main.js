@@ -302,5 +302,9 @@ export const teamLogoUpload = async (file) => {
     });
 }
 
+export const sendTeamInvite = async (team, player) => {
+    console.log(team, ' send an invite to ', player)
+}
+
 createApp(App).use(store).use(router).mount('#app')
 

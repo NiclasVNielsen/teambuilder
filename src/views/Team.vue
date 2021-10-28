@@ -4,6 +4,10 @@
   </p>
   <div v-if="user == owner">
     You are the owner you should totally be able to invite people here
+    <form>
+      <input type="text" placeholder="Player" v-model="player" name="player">
+      <button type="submit" @click.stop.prevent="invite()">Invite</button>
+    </form>
   </div>
   <div>
       <template v-for="member in members" :key="member">
@@ -76,7 +80,7 @@
 <script>
 import { onBeforeUpdate, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getTeamByName, getMatchesByTeam, getUserById } from '@/main.js'
+import { getTeamByName, getMatchesByTeam, getUserById, sendTeamInvite } from '@/main.js'
 import { getAuth } from "firebase/auth";
 import { getStorage, ref as refrence, getDownloadURL } from "firebase/storage";
 
@@ -98,6 +102,7 @@ export default{
         let matches = ref('')
         let owner = ref('')
         let user = ref('')
+        let player = ref('')
 
         onBeforeUpdate(() => {
           const auth = getAuth();
@@ -120,8 +125,12 @@ export default{
                     })
             })
 
+        const invite = () => {
+          sendTeamInvite(name.value, player.value)
+        }
+
         return {
-            name, members, matches, owner, user
+            name, members, matches, owner, user, invite, player
         }
     }
 }
