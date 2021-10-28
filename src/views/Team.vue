@@ -5,6 +5,9 @@
   <div>
       <template v-for="member in members" :key="member">
           <div>
+            <template v-if="member == owner">
+              Owner
+            </template>
             {{ member }}
           </div>
       </template>
@@ -76,10 +79,12 @@ export default{
         let name = ref('')
         let members = ref('')
         let matches = ref('')
+        let owner = ref('')
         getTeamByName(route.params.teamname)
             .then(data => {
                 name.value = data[0].teamName
                 members.value = data[0].members
+                owner.value = data[0].teamOwner
                 
                 getMatchesByTeam(data[0].teamName)
                     .then(data => {
@@ -88,7 +93,7 @@ export default{
             })
 
         return {
-            name, members, matches
+            name, members, matches, owner
         }
     }
 }
