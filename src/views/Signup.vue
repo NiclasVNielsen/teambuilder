@@ -32,7 +32,7 @@
                 </draggable>
                 <br>
 
-                <select name="champions" id="champions" multiple>
+                <select name="champions" id="champions" v-model="lanes.champPool" multiple>
                     <template v-for="(champs) in champions" :key="champs">
                         <option :value="champs">{{champs}}</option>
                     </template>
@@ -95,7 +95,7 @@ export default{
                 
                 }
         })
-        const champions = ref()
+        const champions = ref([])
 
         getChampions()
             .then(data => {
