@@ -130,7 +130,7 @@ export default{
             })
 
         const invite = () => {
-          sendTeamInvite(name.value, userId.value)
+          sendTeamInvite(name.value, user.value)
         }
 
         return {

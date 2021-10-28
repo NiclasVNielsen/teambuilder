@@ -303,10 +303,11 @@ export const teamLogoUpload = async (file) => {
 
 export const sendTeamInvite = async (team, player) => {
     try {
+        //needs to check if player is already in the team
         const user = []
         const invites = []
 
-        let q = query(collection(db, "users"), where("authId", "==", player))
+        let q = query(collection(db, "users"), where("lolName", "==", player))
     
         const querySnapshot = await getDocs(q)
         querySnapshot.forEach((doc) => {
@@ -327,7 +328,7 @@ export const sendTeamInvite = async (team, player) => {
 }
 
 export const acceptTeamInvite = async (team, player) => {
-    try {
+    try {        
         const teams = []
         const members = []
 
@@ -365,6 +366,8 @@ export const acceptTeamInvite = async (team, player) => {
                 newInvs.push(inv)
             }
         })
+
+        //needs to refresh when done to clear it for the user
 
         usersCollection.doc(user[0]).update({
             invitations: newInvs
