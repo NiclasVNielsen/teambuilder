@@ -21,8 +21,6 @@
                     <label for="text">Rank</label>
                     <input type="text" name="rank" id="rank" placeholder="Rank" v-model="rank">
                 </div>
-                <!-- <label for="text">lanes</label>
-                <input type="text" name="email" id="email" placeholder="Email" v-model="email"> -->
                 
                 <draggable  v-model="lanePref" item-key="id" @start="drag=true" @end="drag=false" id="lanePref">
                     <template #item="{element}">
@@ -49,7 +47,7 @@
 <script>
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { createUser } from '@/main.js'
-import { ref/* , onMounted */  } from 'vue'
+import { ref } from 'vue'
 import draggable from 'vuedraggable'
 
 export default{
@@ -99,6 +97,10 @@ export default{
         })
 
         const laneOrderCalc = () => {
+            /* 
+                Problem:  Not secure, the user can manipulate their front page and send uninteded data to the database
+                Solution: Validate the data from the user
+            */
             let laneOrder = document.querySelector('#lanePref').innerHTML
             laneOrder = laneOrder.split(/[<>]/g)
             laneOrder = [laneOrder[2], laneOrder[6], laneOrder[10], laneOrder[14], laneOrder[18]]
@@ -121,7 +123,6 @@ export default{
                 laneOrderCalc()
 
                 createUser(userId.value, name.value, rank.value, lanes.value)
-                    //.then(() => window.location.href = '/')
               })
               .catch((error) => {
                 console.error('Error code: ', error.code);
