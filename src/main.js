@@ -357,12 +357,16 @@ export const acceptTeamInvite = async (team, player) => {
             members.push(doc.data().members)
         })
 
+        if(members[0].length < 5){
+            members[0].push(player)
+    
+            teamsCollection.doc(teams[0]).update({
+                members: members[0]
+            });
+        } else {
+            console.log('Ehhh nope to many players already')
+        }
 
-        members[0].push(player)
-
-        teamsCollection.doc(teams[0]).update({
-            members: members[0]
-        });
 
         //clean invs from team
         const user = []
