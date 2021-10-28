@@ -2,6 +2,9 @@
   <p>
     Team Name: {{ name }}
   </p>
+  <div v-if="user == owner">
+    You are the owner you should totally be able to invite people here
+  </div>
   <div>
       <template v-for="member in members" :key="member">
           <div>
@@ -71,12 +74,11 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onBeforeUpdate, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getTeamByName, getMatchesByTeam } from '@/main.js'
-
+import { getTeamByName, getMatchesByTeam, getUserById } from '@/main.js'
+import { getAuth } from "firebase/auth";
 import { getStorage, ref as refrence, getDownloadURL } from "firebase/storage";
-//import firebase from 'firebase/compat/app'
 
 export default{
     setup() {        
@@ -95,6 +97,15 @@ export default{
         let members = ref('')
         let matches = ref('')
         let owner = ref('')
+        let user = ref('')
+
+        onBeforeUpdate(() => {
+          const auth = getAuth();
+  
+          getUserById(auth.currentUser.uid)
+            .then(data => user.value = data[0].lolName)
+        })
+
         getTeamByName(route.params.teamname)
             .then(data => {
                 name.value = data[0].teamName
@@ -110,7 +121,7 @@ export default{
             })
 
         return {
-            name, members, matches, owner
+            name, members, matches, owner, user
         }
     }
 }
