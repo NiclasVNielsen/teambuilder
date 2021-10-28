@@ -396,5 +396,38 @@ export const acceptTeamInvite = async (team, player) => {
     }
 }
 
+export const declineTeamInvite = async (team, player) => {
+    try {        
+        const user = []
+        const invites = []
+
+        let x = query(collection(db, "users"), where("lolName", "==", player))
+    
+        const querySnapshotx = await getDocs(x)
+        querySnapshotx.forEach((doc) => {
+            user.push(doc.id)
+            invites.push(doc.data().invitations)
+        })
+
+        const newInvs = []
+
+        invites[0].forEach(inv => {
+            if(inv != team){
+                newInvs.push(inv)
+            }
+        })
+
+        //needs to refresh when done to clear it for the user
+
+        usersCollection.doc(user[0]).update({
+            invitations: newInvs
+        });
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
 createApp(App).use(store).use(router).mount('#app')
 

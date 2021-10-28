@@ -29,6 +29,7 @@
       <div>
         {{inv}}
         <button type="submit" @click.stop.prevent="acceptInv(inv)">Accept</button>
+        <button type="submit" @click.stop.prevent="declineInv(inv)">Decline</button>
       </div>
     </template>
   </div>
@@ -39,7 +40,7 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById, acceptTeamInvite } from '@/main.js'
+import { getUserById, acceptTeamInvite, declineTeamInvite } from '@/main.js'
 
 export default {
   setup(){
@@ -81,8 +82,13 @@ export default {
       acceptTeamInvite(team, loggedInUser.value)
     }
     
+    
+    const declineInv = (team) => {
+      declineTeamInvite(team, loggedInUser.value)
+    }
+    
     return { 
-      isLoggedIn, Logout, submitPlayer, submitTeam, player, team, invites, acceptInv
+      isLoggedIn, Logout, submitPlayer, submitTeam, player, team, invites, acceptInv, declineInv
     }
   }
 }
