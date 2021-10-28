@@ -1,4 +1,5 @@
 import { collection, query, where, getDocs } from "firebase/firestore"
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -28,8 +29,8 @@ const db = firebaseApp.firestore()
 
 const championsCollection = db.collection('champions')
 const usersCollection = db.collection('users') 
+const teamsCollection = db.collection('teams')
 /*const ranksCollection = db.collection('ranks')
-/*const teamsCollection = db.collection('teams')
 /*const tournamentsCollection = db.collection('tournaments')
 /*const matchesCollection = db.collection('matches')*/
 
@@ -196,6 +197,15 @@ export const getTeamByName = async (name) => {
     }
 }
 
+export const createTeam = async (name, icon, owner) => {
+    return teamsCollection.add({
+        teamName: name,
+        teamIcon: icon,
+        teamOwner: owner,
+        members: [owner]
+    })
+}
+
 
 export const getAllTournaments = async () => {
     try {
@@ -281,6 +291,15 @@ export const createUser = async (userId, name, rank, lanes) => {
         rank: rank,
         lanes: lanes
     })
+}
+
+export const teamLogoUpload = async (file) => {
+    const storage = getStorage();
+    const storageRef = ref(storage, `${file.fileName}`);
+
+    uploadBytes(storageRef, file.file).then(() => {
+        console.log('BLOB');
+    });
 }
 
 createApp(App).use(store).use(router).mount('#app')
