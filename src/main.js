@@ -177,6 +177,27 @@ export const getTeamsByPlayer = async (player) => {
     }
 }
 
+export const getTeamsByOwner = async (player) => {
+    try {
+        const teams = []
+
+        const q = query(collection(db, "teams"))
+    
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            if(doc.data().teamOwner == player){
+                teams.push(doc.data())
+            }
+        })
+
+        return teams
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
 export const getTeamByName = async (name) => {
     try {
         const team = []
