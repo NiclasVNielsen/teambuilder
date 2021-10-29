@@ -30,8 +30,7 @@ const championsCollection = db.collection('champions')
 const usersCollection = db.collection('users') 
 const teamsCollection = db.collection('teams')
 const tournamentsCollection = db.collection('tournaments')
-/*const ranksCollection = db.collection('ranks')
-/*const matchesCollection = db.collection('matches')*/
+const matchesCollection = db.collection('matches')
 
 
 export const getChampions = async () => {
@@ -494,11 +493,40 @@ export const createTournament = async (name, icon, owner, desc, amountOfTeams, s
 }
 
 export const createMatch = async (winner, looser) => {
-    console.log(winner, looser)
-    /* return tournamentsCollection.add({
-        winner: winner,
-        looser: looser,
-    }) */
+    const players = []
+
+    let q = query(collection(db, "teams"), where("teamName", "==", winner))
+
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+        doc.data().members.forEach(member => {
+            players.push({
+                name: member,
+                team: 1
+            })
+        })
+    })
+    let x = query(collection(db, "teams"), where("teamName", "==", looser))
+
+    const querySnapshotx = await getDocs(x)
+    querySnapshotx.forEach((doc) => {
+        doc.data().members.forEach(member => {
+            players.push({
+                name: member,
+                team: 2
+            })
+        })
+    })
+
+    return matchesCollection.add({
+        players: players,
+        teams: {
+            1: winner,
+            2: looser
+        },
+        time: new Date,
+        winner: 1
+    })
 }
 
 createApp(App).use(store).use(router).mount('#app')
