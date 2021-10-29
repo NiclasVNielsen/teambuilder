@@ -99,7 +99,8 @@
         </template>
         
         <template v-if="dataTitle == 'winner'">
-          Winner: {{ match['teams'][data] }}
+          Winner: 
+          <router-link :to="{path: '/team/' + match['teams'][data]}">{{ match['teams'][data] }}</router-link>
         </template>
       </div>
     </div>

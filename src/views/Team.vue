@@ -3,7 +3,6 @@
     Team Name: {{ name }}
   </p>
   <div v-if="user == owner">
-    You are the owner you should totally be able to invite people here
     <form>
       <input type="text" placeholder="Player" v-model="invPlayer" name="player">
       <button type="submit" @click.stop.prevent="invite()">Invite</button>
@@ -70,7 +69,8 @@
         </template>
         
         <template v-if="dataTitle == 'winner'">
-          Winner: {{ match['teams'][data] }}
+          Winner: 
+          <a :href="'/team/' + match['teams'][data]">{{ match['teams'][data] }}</a>
         </template>
       </div>
     </div>

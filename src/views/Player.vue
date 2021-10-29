@@ -93,7 +93,8 @@
         </template>
         
         <template v-if="dataTitle == 'winner'">
-          Winner: {{ match['teams'][data] }}
+          Winner:
+          <a :href="'/team/' + match['teams'][data]">{{ match['teams'][data] }}</a>
         </template>
       </div>
     </div>
