@@ -4,7 +4,6 @@
   <br>
   
   <ul>
-    <li>Team sign up to tournament</li>
     <li>Make Tournaments</li>
     <li>Edit profile</li>
     <li>Leave team</li>
