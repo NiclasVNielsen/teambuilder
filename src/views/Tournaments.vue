@@ -5,6 +5,12 @@
   <router-link to="/CreateTournament">Create Tournament</router-link>
   <hr>
   <div v-for="tournament in tournaments" :key="tournament">
+      <div v-if="user == tournament['owner']">
+        {{ tournament['name'] }}
+      </div>
+  </div>
+  <hr>
+  <div v-for="tournament in tournaments" :key="tournament">
       <div>
         {{ tournament['name'] }}
       </div>
@@ -46,14 +52,26 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { getAllTournaments, getTeamsByOwner, signUpToTournament } from '@/main.js'
+import { onBeforeUpdate, ref } from 'vue'
+import { getAllTournaments, getTeamsByOwner, signUpToTournament, getUserById } from '@/main.js'
 import { getStorage, ref as refrence, getDownloadURL } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 export default{
     setup() {
-        let tournaments = ref('')
-        let yourTeams = ref([])
+        const tournaments = ref('')
+        const yourTeams = ref([])
+        const user = ref('')
+
+        onBeforeUpdate(() => {
+          const auth = getAuth();
+          const userId = auth.currentUser.uid;
+          getUserById(userId)
+            .then(data => {
+              user.value = data[0].lolName
+              console.log('user', user.value)
+            })
+        })
 
         const getTournamentIcon = (icon, index) =>{
           const storage = getStorage()
@@ -85,7 +103,7 @@ export default{
           }
         }
 
-        return { tournaments, yourTeams, signTeamUp }
+        return { tournaments, yourTeams, signTeamUp, user }
     }
 }
 </script>
