@@ -29,8 +29,8 @@ const db = firebaseApp.firestore()
 const championsCollection = db.collection('champions')
 const usersCollection = db.collection('users') 
 const teamsCollection = db.collection('teams')
+const tournamentsCollection = db.collection('tournaments')
 /*const ranksCollection = db.collection('ranks')
-/*const tournamentsCollection = db.collection('tournaments')
 /*const matchesCollection = db.collection('matches')*/
 
 
@@ -446,6 +446,37 @@ export const declineTeamInvite = async (team, player) => {
 
         usersCollection.doc(user[0]).update({
             invitations: newInvs
+        });
+    } 
+
+    catch {
+        err => console.error('This is burning🔥 ', err)
+    }
+}
+
+
+export const signUpToTournament = async (tournament, team) => {
+    try {        
+        const tournaments = []
+        const teams = []
+        console.log('Me me here')
+
+        let q = query(collection(db, "tournaments"), where("name", "==", tournament))
+    
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            tournaments.push(doc.id)
+            teams.push(doc.data().teams)
+        })
+        teams[0].push(team)
+        
+        console.log('dont mind me',team)
+        console.log(teams)
+        console.log(tournaments[0])
+
+
+        tournamentsCollection.doc(tournaments[0]).update({
+            teams: teams[0]
         });
     } 
 
