@@ -115,4 +115,9 @@ export default {
     }
   }
 }
+
+img{
+  width: 100px;
+  height: auto;
+}
 </style>
