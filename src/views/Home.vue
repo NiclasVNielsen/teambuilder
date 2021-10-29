@@ -4,7 +4,6 @@
   <br>
   
   <ul>
-    <li>tournament control wins and loses</li>
     <li>Edit profile</li>
     <li>Leave team</li>
   </ul>
