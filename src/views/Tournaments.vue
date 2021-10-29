@@ -15,7 +15,7 @@
         Max number of teams: {{ tournament['amountOfTeams'] }}
       </div>
       <div>
-        {{ tournament['icon'] }}
+        <img class="tournamentIcon" alt="Tournament Icon">
       </div>
       <div>
         Sign up before: {{ tournament['signUpDeadline'] }}
@@ -48,15 +48,28 @@
 <script>
 import { ref } from 'vue'
 import { getAllTournaments, getTeamsByOwner, signUpToTournament } from '@/main.js'
+import { getStorage, ref as refrence, getDownloadURL } from "firebase/storage";
 
 export default{
     setup() {
         let tournaments = ref('')
         let yourTeams = ref([])
 
+        const getTournamentIcon = (icon, index) =>{
+          const storage = getStorage()
+          getDownloadURL(refrence(storage, icon))
+            .then(url => {
+              document.querySelectorAll('.tournamentIcon')[index].src = url;
+            })
+        }
+
         getAllTournaments()
           .then(data => {
               tournaments.value = data
+              tournaments.value.forEach((tournament, index) => {
+                console.log(index, tournament.icon)
+                getTournamentIcon(tournament.icon, index)
+              })
           })
         
         getTeamsByOwner('adcMonkey')
