@@ -6,7 +6,24 @@
   <hr>
   <div v-for="tournament in tournaments" :key="tournament">
       <div v-if="user == tournament['owner'] && tournament['time'].split('-').join('')  < `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`">
-        {{ tournament['name'] }}
+        <p>
+          {{ tournament['name'] }}
+        </p>
+        <form action="">
+          <label for="winner">Winner</label>
+          <select name="winner" id="winner" v-model="winner">
+            <template v-for="team in tournament['teams']" :key="team">
+              <option :value="team">{{ team }}</option>
+            </template>
+          </select>
+          <label for="looser">Looser</label>
+          <select name="looser" id="looser" v-model="looser">
+            <template v-for="team in tournament['teams']" :key="team">
+              <option :value="team">{{ team }}</option>
+            </template>
+          </select>
+          <button type="submit" @click.stop.prevent="createMatchInHistorie(winner, looser)">Create Match in Historie</button>
+        </form>
       </div>
   </div>
   <hr>
@@ -53,7 +70,7 @@
 
 <script>
 import { onBeforeUpdate, ref } from 'vue'
-import { getAllTournaments, getTeamsByOwner, signUpToTournament, getUserById } from '@/main.js'
+import { getAllTournaments, getTeamsByOwner, signUpToTournament, getUserById, createMatch } from '@/main.js'
 import { getStorage, ref as refrence, getDownloadURL } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
@@ -101,7 +118,13 @@ export default{
           }
         }
 
-        return { tournaments, yourTeams, signTeamUp, user }
+        const createMatchInHistorie = (winner, looser) => {
+          if(winner != looser){
+            createMatch(winner, looser)
+          }
+        }
+
+        return { tournaments, yourTeams, signTeamUp, user, createMatchInHistorie }
     }
 }
 </script>

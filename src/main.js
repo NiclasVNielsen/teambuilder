@@ -491,15 +491,14 @@ export const createTournament = async (name, icon, owner, desc, amountOfTeams, s
         time: time,
         teams: []
     })
-    /* console.log(
-        'name', name,
-        'icon', icon,
-        'owner', owner,
-        'desc', desc,
-        'amountOfTeams', amountOfTeams,
-        'signUpDeadline', signUpDeadline,
-        'time', time
-    ) */
+}
+
+export const createMatch = async (winner, looser) => {
+    console.log(winner, looser)
+    /* return tournamentsCollection.add({
+        winner: winner,
+        looser: looser,
+    }) */
 }
 
 createApp(App).use(store).use(router).mount('#app')
