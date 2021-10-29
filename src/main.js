@@ -74,7 +74,7 @@ export const getMatchesByPlayer = async (player) => {
     
         const querySnapshot = await getDocs(q)
         querySnapshot.forEach((doc) => {
-            for(let i = 1; i < 11; i++){
+            for(let i = 0; i < 10; i++){
                 if(doc.data().players[i]['name'] == player){
                     matches.push(doc.data())
                 }

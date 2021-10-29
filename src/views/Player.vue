@@ -39,6 +39,7 @@
   <div>
     <hr>
     <div class="containerVert match" v-for="(match) in matches" :key="match" v-bind:class="{
+      'won1': match['players'][0].name == name && match['players'][0].team == match['winner'],
       'won1': match['players'][1].name == name && match['players'][1].team == match['winner'],
       'won2': match['players'][2].name == name && match['players'][2].team == match['winner'],
       'won3': match['players'][3].name == name && match['players'][3].team == match['winner'],
@@ -48,7 +49,6 @@
       'won7': match['players'][7].name == name && match['players'][7].team == match['winner'],
       'won8': match['players'][8].name == name && match['players'][8].team == match['winner'],
       'won9': match['players'][9].name == name && match['players'][9].team == match['winner'],
-      'won10': match['players'][10].name == name && match['players'][10].team == match['winner']
     }">
       <div v-for="(data, dataTitle) in match" :key="data" v-bind:class="{
         'order1': dataTitle == 'teams',
