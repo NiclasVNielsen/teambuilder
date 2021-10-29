@@ -5,7 +5,7 @@
   <router-link to="/CreateTournament">Create Tournament</router-link>
   <hr>
   <div v-for="tournament in tournaments" :key="tournament">
-      <div v-if="user == tournament['owner']">
+      <div v-if="user == tournament['owner'] && tournament['time'].split('-').join('')  < `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`">
         {{ tournament['name'] }}
       </div>
   </div>
@@ -69,7 +69,6 @@ export default{
           getUserById(userId)
             .then(data => {
               user.value = data[0].lolName
-              console.log('user', user.value)
             })
         })
 
@@ -85,7 +84,6 @@ export default{
           .then(data => {
               tournaments.value = data
               tournaments.value.forEach((tournament, index) => {
-                console.log(index, tournament.icon)
                 getTournamentIcon(tournament.icon, index)
               })
           })
