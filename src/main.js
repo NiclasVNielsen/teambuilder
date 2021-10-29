@@ -470,11 +470,6 @@ export const signUpToTournament = async (tournament, team) => {
         })
         teams[0].push(team)
         
-        console.log('dont mind me',team)
-        console.log(teams)
-        console.log(tournaments[0])
-
-
         tournamentsCollection.doc(tournaments[0]).update({
             teams: teams[0]
         });
@@ -483,6 +478,28 @@ export const signUpToTournament = async (tournament, team) => {
     catch {
         err => console.error('This is burning🔥 ', err)
     }
+}
+
+export const createTournament = async (name, icon, owner, desc, amountOfTeams, signUpDeadline, time) => {
+    return tournamentsCollection.add({
+        name: name,
+        icon: icon,
+        owner: owner,
+        desc: desc,
+        amountOfTeams: amountOfTeams,
+        signUpDeadline: signUpDeadline,
+        time: time,
+        teams: []
+    })
+    /* console.log(
+        'name', name,
+        'icon', icon,
+        'owner', owner,
+        'desc', desc,
+        'amountOfTeams', amountOfTeams,
+        'signUpDeadline', signUpDeadline,
+        'time', time
+    ) */
 }
 
 createApp(App).use(store).use(router).mount('#app')

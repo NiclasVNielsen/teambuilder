@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div>
         <div>
             <h1>
                 Create Team

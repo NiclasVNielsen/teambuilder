@@ -2,6 +2,7 @@
   <div>
       Tournaments
   </div>
+  <router-link to="/CreateTournament">Create Tournament</router-link>
   <hr>
   <div v-for="tournament in tournaments" :key="tournament">
       <div>
@@ -17,10 +18,10 @@
         {{ tournament['icon'] }}
       </div>
       <div>
-        Sign up before: {{ tournament['signUpDeadline'].toDate().toDateString() }}
+        Sign up before: {{ tournament['signUpDeadline'] }}
       </div>
       <div>
-        Starts: {{ tournament['time'].toDate().toDateString() }}
+        Starts: {{ tournament['time'] }}
       </div>
       <div>
           Teams:
@@ -28,7 +29,7 @@
               {{ team }}
           </div>
       </div>
-      <template v-if="tournament['teams'].length < tournament['amountOfTeams'] && tournament['signUpDeadline'].seconds * 1000 > (new Date).getTime()">
+      <template v-if="tournament['teams'].length < tournament['amountOfTeams']"><!-- && tournament['signUpDeadline'].seconds * 1000 > (new Date).getTime() -->
         <form action="">
           <select name="signup" id="signup" v-model="signup">
             <template v-for="team in yourTeams" :key="team">
@@ -67,7 +68,6 @@ export default{
 
         const signTeamUp = (tournament, team) => {
           if(team){
-            //console.log(tournament, team)
             signUpToTournament(tournament, team)
           }
         }

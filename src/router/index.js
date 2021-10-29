@@ -42,6 +42,11 @@ const routes = [
     name: 'Tournaments',
     component: () => import ('../views/Tournaments.vue')
   },
+  {
+    path: '/createTournament',
+    name: 'CreateTournament',
+    component: () => import ('../views/CreateTournament.vue')
+  },
 ]
 
 const router = createRouter({
