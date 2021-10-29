@@ -29,7 +29,7 @@
               {{ team }}
           </div>
       </div>
-      <template v-if="tournament['teams'].length < tournament['amountOfTeams']"><!-- && tournament['signUpDeadline'].seconds * 1000 > (new Date).getTime() -->
+      <template v-if="tournament['teams'].length < tournament['amountOfTeams'] && tournament['signUpDeadline'].split('-').join('')  > `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`"><!-- && tournament['signUpDeadline'].seconds * 1000 > (new Date).getTime() -->
         <form action="">
           <select name="signup" id="signup" v-model="signup">
             <template v-for="team in yourTeams" :key="team">
