@@ -9,15 +9,22 @@
     Summoner Name: {{ name }}
   </p>
   <p>
-    Rank: {{ rank }}
-  </p>
-  <p>
     Teams: 
     <template v-for="team in teams" :key="team">
       <a :href="'/team/' + team.teamName">
         {{ team.teamName }}
       </a>
     </template>
+  </p>
+  <p>
+    <label for="userRank">Rank:</label>
+    <select name="userRank" id="userRank" v-model="userRank">
+      <template v-for="tier in ranks" :key="tier">
+        <option :value="tier">
+          {{ tier }}
+        </option>
+      </template>
+    </select>
   </p>
   <div class="containerVert">
     <template v-for="(lane, group) in lanes" :key="lane">
@@ -35,9 +42,11 @@
         </h4>
         <p v-for="(lan, useless, i) in lane" :key="lan">
           <template v-if="group == 'prefLevel'">
-            {{ i + 1 }}
+            {{ i + 1 }} {{ lan }}
           </template>
-          {{ lan }}
+          <template v-else>
+            {{ lan }}
+          </template>
         </p>
       </div>
     </template>
@@ -114,13 +123,16 @@ import { getUserById, getRanks, getMatchesByPlayer, getTeamsByPlayer } from '@/m
 
 export default{
     setup() {
-        let email = ref('')
-        let uid = ref('')
-        let name = ref('')
-        let rank = ref('')
-        let lanes = ref('')
-        let matches = ref('')
-        let teams = ref('')
+        const email = ref('')
+        const uid = ref('')
+        const name = ref('')
+        const rank = ref('')
+        const ranks = ref([])
+        const lanes = ref('')
+        const matches = ref('')
+        const teams = ref('')
+
+        const userRank = ref('')
 
         firebase.auth().onAuthStateChanged(function(user) {
             //Nope you don't belong here check
@@ -147,7 +159,9 @@ export default{
                   })
                 getRanks()
                   .then(rankData => {
+                    ranks.value = rankData
                     rank.value = rankData[rank.value]
+                    userRank.value = `${rank.value}`
                   })
               })
         });
@@ -156,7 +170,7 @@ export default{
           
 
         return {
-            email, name, rank, lanes, matches, teams
+            email, name, rank, lanes, matches, teams, ranks, userRank
         }
     }
 }
