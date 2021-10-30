@@ -40,12 +40,21 @@
             Favorite Champions
           </template>
         </h4>
+        <!-- This needs a rework they should be sepereated -->
         <p v-for="(lan, useless, i) in lane" :key="lan">
           <template v-if="group == 'prefLevel'">
             {{ i + 1 }} {{ lan }}
           </template>
           <template v-else>
             {{ lan }}
+            <!-- 
+              selected if lan == champion - from all champions list
+             -->
+            <!-- <select name="" id="" multiple>
+              <option value="">1</option>
+              <option value="" selected>2</option>
+              <option value="" selected>3</option>
+            </select> -->
           </template>
         </p>
       </div>
