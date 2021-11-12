@@ -1,71 +1,75 @@
 <template>
-  <div>
-      Tournaments
-  </div>
-  <router-link to="/CreateTournament">Create Tournament</router-link>
-  <hr>
-  <div v-for="tournament in tournaments" :key="tournament">
-      <div v-if="user == tournament['owner'] && tournament['time'].split('-').join('')  < `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`">
-        <p>
-          {{ tournament['name'] }}
-        </p>
-        <form action="">
-          <label for="winner">Winner</label>
-          <select name="winner" id="winner" v-model="winner">
-            <template v-for="team in tournament['teams']" :key="team">
-              <option :value="team">{{ team }}</option>
-            </template>
-          </select>
-          <label for="looser">Looser</label>
-          <select name="looser" id="looser" v-model="looser">
-            <template v-for="team in tournament['teams']" :key="team">
-              <option :value="team">{{ team }}</option>
-            </template>
-          </select>
-          <button type="submit" @click.stop.prevent="createMatchInHistorie(winner, looser)">Create Match in Historie</button>
-        </form>
-      </div>
-  </div>
-  <hr>
-  <div v-for="tournament in tournaments" :key="tournament">
-      <div>
-        {{ tournament['name'] }}
-      </div>
-      <div>
-        {{ tournament['desc'] }}
-      </div>
-      <div>
-        Max number of teams: {{ tournament['amountOfTeams'] }}
-      </div>
-      <div>
-        <img class="tournamentIcon" alt="Tournament Icon">
-      </div>
-      <div>
-        Sign up before: {{ tournament['signUpDeadline'] }}
-      </div>
-      <div>
-        Starts: {{ tournament['time'] }}
-      </div>
-      <div>
-          Teams:
-          <div v-for="team in tournament['teams']" :key="team">
-              {{ team }}
+  <main>
+    <div class="create">
+      <router-link to="/CreateTournament">Create Tournament</router-link>
+    </div>
+    <div v-for="tournament in tournaments" :key="tournament">
+        <div v-if="user == tournament['owner'] && tournament['time'].split('-').join('')  < `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`">
+          <p>
+            {{ tournament['name'] }}
+          </p>
+          <form action="">
+            <label for="winner">Winner</label>
+            <select name="winner" id="winner" v-model="winner">
+              <template v-for="team in tournament['teams']" :key="team">
+                <option :value="team">{{ team }}</option>
+              </template>
+            </select>
+            <label for="looser">Looser</label>
+            <select name="looser" id="looser" v-model="looser">
+              <template v-for="team in tournament['teams']" :key="team">
+                <option :value="team">{{ team }}</option>
+              </template>
+            </select>
+            <button type="submit" @click.stop.prevent="createMatchInHistorie(winner, looser)">Create Match in Historie</button>
+          </form>
+        </div>
+    </div>
+    <hr>
+    <div v-for="tournament in tournaments" :key="tournament" class="tournament">
+        <div class="tournamentTitle">
+          <div>
+            <img class="tournamentIcon" alt="Tournament Icon">
           </div>
-      </div>
-      <template v-if="tournament['teams'].length < tournament['amountOfTeams'] && tournament['signUpDeadline'].split('-').join('')  > `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`"><!-- && tournament['signUpDeadline'].seconds * 1000 > (new Date).getTime() -->
-        <form action="">
-          <select name="signup" id="signup" v-model="signup">
-            <template v-for="team in yourTeams" :key="team">
-              <option :value="team">
+          <h3>
+            {{ tournament['name'] }}
+          </h3>
+        </div>
+        <div class="tournamentCrucialInfo">
+          <div>
+            Max Teams: {{ tournament['amountOfTeams'] }}
+          </div>
+          <div>
+            Deadline: {{ tournament['signUpDeadline'] }}
+          </div>
+          <div>
+            Starts: {{ tournament['time'] }}
+          </div>
+        </div>
+        <div>
+          {{ tournament['desc'] }}
+        </div>
+        <div class="tournamentTeams">
+            Teams:
+            <div v-for="team in tournament['teams']" :key="team">
                 {{ team }}
-              </option>
-            </template>
-          </select>
-          <button type="submit" @click.stop.prevent="signTeamUp(tournament['name'], signup)">Sign up</button>
-        </form>
-      </template>
-      <hr>
-  </div>
+            </div>
+        </div>
+        <template v-if="tournament['teams'].length < tournament['amountOfTeams'] && tournament['signUpDeadline'].split('-').join('')  > `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`"><!-- && tournament['signUpDeadline'].seconds * 1000 > (new Date).getTime() -->
+          <form action="">
+            <select name="signup" id="signup" v-model="signup">
+              <template v-for="team in yourTeams" :key="team">
+                <option :value="team">
+                  {{ team }}
+                </option>
+              </template>
+            </select>
+            <button type="submit" @click.stop.prevent="signTeamUp(tournament['name'], signup)">Sign up</button>
+          </form>
+        </template>
+        <hr>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -128,3 +132,38 @@ export default{
     }
 }
 </script>
+
+<style lang="sass" scoped>
+  main
+    position: relative
+
+  .create
+    position: absolute
+    top: .5vh
+    left: .5vh
+    background: #0f0
+    padding: 1vh 1vh
+    border-radius: 2vh
+    transition: 200ms
+    &:hover
+      background: #090
+    a
+      text-decoration: none
+      color: #FFF
+      display: block
+
+  .tournament
+    .tournamentTitle
+      display: flex
+      justify-content: center
+      align-items: center
+      font-size: 2em
+    .tournamentCrucialInfo
+      display: flex
+      justify-content: center
+      opacity: .8
+      div
+        padding: .5em
+    .tournamentTeams
+      margin-top: .5em
+</style>
