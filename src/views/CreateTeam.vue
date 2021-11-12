@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <div>
+    <main>
+        <div class="createContainer">
             <h1>
                 Create Team
             </h1>
             <form @submit.prevent="create">
                 <label for="name">Team Name</label>
                 <input type="text" name="name" id="name" placeholder="name" v-model="name">
-                <file-input v-model="icon" is-image></file-input>
+                <div id="fileUploadContainer">
+                    <file-input v-model="icon" is-image></file-input>
+                </div>
                 <button type="submit">Create Team</button>
             </form>
         </div>
-    </div>
+    </main>
 </template>
 
 <script>
@@ -59,5 +61,21 @@ export default{
 </script>
 
 <style lang="sass" scoped>
+main
+    position: relative
+    height: 87.5vh
+    
+.createContainer
+    max-width: 500px
+    width: 100%
+    position: absolute
+    left: 50%
+    top: 20%
+    transform: translateX(-50%)
 
+#fileUploadContainer
+    div
+        width: 100%
+        background: #000
+    
 </style>
