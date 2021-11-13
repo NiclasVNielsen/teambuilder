@@ -1,24 +1,31 @@
 <template>
-  <div>
-    <img class="teamIcon" alt="team icon">
+  <div class="team">
+    <div>
+      <img class="teamIcon" alt="team icon">
+    </div>
+    <h2>
+      {{ name }}
+    </h2>
   </div>
-  <h2>
-    {{ name }}
-  </h2>
-  <div v-if="user == owner">
+  <div v-if="user == owner" class="invite">
     <form>
       <input type="text" placeholder="Player" v-model="invPlayer" name="player">
       <button type="submit" @click.stop.prevent="invite()">Invite</button>
     </form>
   </div>
-  <div>
+  <div class="playerContainer container">
       <template v-for="(member, index) in members" :key="member">
           <div>
-            <template v-if="member == owner">
-              Owner
-            </template>
+            <p>
+              <template v-if="member == owner">
+                  Owner
+              </template>
+              &nbsp;
+            </p>
             <img :src="require('@/assets/championsFull/' + champPortraits[index] + '_0.jpg')" alt="Champion Art">
-            {{ member }}
+            <p>
+              <a :href="'/player/' + member">{{ member }}</a>
+            </p>
           </div>
       </template>
   </div>
@@ -154,34 +161,67 @@ export default{
 }
 </script>
 
-<style lang="scss" scoped>
-  .containerVert{
-    display: flex;
-    flex-direction: column;
-  }
-  .container{
-    display: flex;
-    justify-content: center;
-  }
+<style lang="sass" scoped>
+  .containerVert
+    display: flex
+    flex-direction: column
+  
+  .container
+    display: flex
+    justify-content: center
+  
+  .team
+    display: flex
+    justify-content: center
+    align-items: center
+    margin: 2vh 0
+    .teamIcon
+      margin-right: 1em
 
-  .order1{
+  .invite
+    margin-bottom: 2vh
+
+  .playerContainer
+    max-width: 1000px
+    width: 100%
+    margin: 0 auto 12vh
+    >div
+      width: 20%
+      position: relative
+      img
+        width: 100%
+        height: auto
+      p:last-of-type
+        position: absolute
+        background: linear-gradient(transparent, #000 1em)
+        width: 100%
+        text-align: center
+        bottom: 0
+        padding: 1em .3em .3em
+        a
+          color: #FFF
+          text-decoration: none
+
+  
+
+  .order1
     order: 1
-  }
-  .order2{
+  
+  .order2
     order: 2
-  }
-  .order3{
+  
+  .order3
     order: 3
-  }
-  .order4{
+  
+  .order4
     order: 4
-  }
+  
 
-  .match{
-    background: #F00;
-  }
+  .match
+    background: #F00
+  
 
-  .won{
-    background: #0F0 !important;
-  }
+  .won
+    background: #0F0 !important
+  
 </style>
