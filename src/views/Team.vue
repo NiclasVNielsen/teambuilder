@@ -1,7 +1,10 @@
 <template>
-  <p>
-    Team Name: {{ name }}
-  </p>
+  <div>
+    <img class="teamIcon" alt="team icon">
+  </div>
+  <h2>
+    {{ name }}
+  </h2>
   <div v-if="user == owner">
     <form>
       <input type="text" placeholder="Player" v-model="invPlayer" name="player">
@@ -9,17 +12,15 @@
     </form>
   </div>
   <div>
-      <template v-for="member in members" :key="member">
+      <template v-for="(member, index) in members" :key="member">
           <div>
             <template v-if="member == owner">
               Owner
             </template>
+            <img :src="require('@/assets/championsFull/' + champPortraits[index] + '_0.jpg')" alt="Champion Art">
             {{ member }}
           </div>
       </template>
-  </div>
-  <div>
-    <img class="teamIcon" alt="team icon">
   </div>
   <div>
     <hr>
@@ -80,7 +81,7 @@
 <script>
 import { onBeforeUpdate, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getTeamByName, getMatchesByTeam, getUserById, sendTeamInvite } from '@/main.js'
+import { getTeamByName, getMatchesByTeam, getUserById, sendTeamInvite, getUserByName } from '@/main.js'
 import { getAuth } from "firebase/auth";
 import { getStorage, ref as refrence, getDownloadURL } from "firebase/storage";
 
@@ -104,6 +105,7 @@ export default{
         let user = ref('')
         let player = ref('')
         let invPlayer = ref('')
+        let champPortraits = ref([])
 
         onBeforeUpdate(() => {
           const auth = getAuth();
@@ -120,6 +122,19 @@ export default{
                 icon.value = data[0].teamIcon
                 members.value = data[0].members
                 owner.value = data[0].teamOwner
+                members.value.forEach(member => {
+                  getUserByName(member)
+                    .then(userData => {
+                      console.log(userData.length)
+                      if(userData.length == 0){
+                        champPortraits.value.push('Yasuo')
+                      }else{
+                        champPortraits.value.push(userData[0].lanes.champPool[1])
+                      }
+                    })
+                    console.log(champPortraits.value)
+                })
+
                 getTeamIcon(icon.value)
                 
                 getMatchesByTeam(data[0].teamName)
@@ -133,7 +148,7 @@ export default{
         }
 
         return {
-            name, members, matches, owner, user, invite, player, invPlayer
+            name, members, matches, owner, user, invite, player, invPlayer, champPortraits
         }
     }
 }
