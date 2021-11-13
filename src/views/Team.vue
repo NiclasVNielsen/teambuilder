@@ -30,7 +30,6 @@
       </template>
   </div>
   <div>
-    <hr>
     <div class="containerVert match" v-for="(match) in matches" :key="match" v-bind:class="{
       'won': name == match['teams'][match['winner']]
     }">

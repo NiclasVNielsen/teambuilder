@@ -1,31 +1,35 @@
 <template>
-  <div class="profile">
-    This is you!
-  </div>
-  <p>
-    Email: {{ email }}
-  </p>
-  <p>
-    Summoner Name: {{ name }}
-  </p>
-  <p>
-    Teams: 
-    <template v-for="team in teams" :key="team">
-      <a :href="'/team/' + team.teamName">
-        {{ team.teamName }}
-      </a>
-    </template>
-  </p>
-  <p>
-    <label for="userRank">Rank:</label>
-    <select name="userRank" id="userRank" v-model="userRank">
-      <template v-for="tier in ranks" :key="tier">
-        <option :value="tier">
-          {{ tier }}
-        </option>
+  <div class="info">
+    <p>
+      Email: {{ email }}
+    </p>
+    <br>
+    <p>
+      Summoner Name: {{ name }}
+    </p>
+    <br>
+    <p>
+      Teams: 
+      <template v-for="team in teams" :key="team">
+        <p>
+          <a :href="'/team/' + team.teamName">
+            {{ team.teamName }}
+          </a>
+        </p>
       </template>
-    </select>
-  </p>
+    </p>
+    <br>
+    <p>
+      <label for="userRank">Rank:</label>
+      <select name="userRank" id="userRank" v-model="userRank">
+        <template v-for="tier in ranks" :key="tier">
+          <option :value="tier">
+            {{ tier }}
+          </option>
+        </template>
+      </select>
+    </p>
+  </div>
   <div class="containerVert">
     <template v-for="(lane, group) in lanes" :key="lane">
       <div v-bind:class="{
@@ -41,22 +45,25 @@
           </template>
         </h4>
         <!-- This needs a rework they should be sepereated -->
-        <p v-for="(lan, useless, i) in lane" :key="lan">
-          <template v-if="group == 'prefLevel'">
-            {{ i + 1 }} {{ lan }}
+        <div class="container championContainer">
+          <template v-for="(lan, useless, i) in lane" :key="lan">
+            <template v-if="group == 'prefLevel'">
+              <template v-if="i < 2">
+                <p>
+                  {{ laneOrderTitles[i] }} {{ lan }}
+                </p>
+              </template>
+            </template>
+            <template v-else>
+              <div>
+                <img :src="require('@/assets/championsFull/' + lan + '_0.jpg')" alt="Champion Art">
+                <p>
+                  {{ lan }}
+                </p>
+              </div>
+            </template>
           </template>
-          <template v-else>
-            {{ lan }}
-            <!-- 
-              selected if lan == champion - from all champions list
-             -->
-            <!-- <select name="" id="" multiple>
-              <option value="">1</option>
-              <option value="" selected>2</option>
-              <option value="" selected>3</option>
-            </select> -->
-          </template>
-        </p>
+        </div>
       </div>
     </template>
   </div>
@@ -75,7 +82,7 @@
       'won9': match['players'][9].name == name && match['players'][9].team == match['winner'],
     }">
       <div v-for="(data, dataTitle) in match" :key="data" v-bind:class="{
-        'order1': dataTitle == 'teams',
+        'order11': dataTitle == 'teams',
         'order2': dataTitle == 'players',
         'order3': dataTitle == 'time',
         'order4': dataTitle == 'winner'
@@ -140,6 +147,10 @@ export default{
         const lanes = ref('')
         const matches = ref('')
         const teams = ref('')
+        const laneOrderTitles = ref([
+          'Primary',
+          'Secondary'
+        ])
 
         const userRank = ref('')
 
@@ -175,44 +186,87 @@ export default{
               })
         });
         
-
-          
-
         return {
-            email, name, rank, lanes, matches, teams, ranks, userRank
+            email, name, rank, lanes, matches, teams, ranks, userRank, laneOrderTitles
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
-  .containerVert{
-    display: flex;
-    flex-direction: column;
-  }
-  .container{
-    display: flex;
-    justify-content: center;
-  }
+<style lang="sass" scoped>
+  .containerVert
+    display: flex
+    flex-direction: column
+  
+  .container
+    display: flex
+    justify-content: center
+  
+  .prefLevel
+    display: block !important
 
-  .order1{
+  .info
+    display: flex
+    flex-direction: column
+    text-align: left
+    width: 100%
+    max-width: 700px
+    margin: 4vh auto
+
+  .order1
     order: 1
-  }
-  .order2{
+    h4
+      width: 100%
+      max-width: 700px
+      text-align: left
+      margin: 0 auto
+    .container
+      display: block
+      width: 100%
+      max-width: 700px
+      text-align: left
+
+  .order1
+    order: 1
+  .order11
+    order: 1
+  
+  .order2
     order: 2
-  }
-  .order3{
+  
+  .order3
     order: 3
-  }
-  .order4{
+  
+  .order4
     order: 4
-  }
+  
 
-  .match{
-    background: #F00;
-  }
+  .match
+    background: #F00
+  
 
-  .won1, .won2, .won3, .won4, .won5, .won6, .won7, .won8, .won9, .won10 {
-    background: #0F0 !important;
-  }
+  .won1, .won2, .won3, .won4, .won5, .won6, .won7, .won8, .won9, .won10 
+    background: #0F0 !important
+  
+
+  .championContainer
+    max-width: 1000px
+    width: 100%
+    margin: 0 auto 12vh
+    >div
+      width: 20%
+      position: relative
+      img
+        width: 100%
+        height: auto
+      p:last-of-type
+        position: absolute
+        background: linear-gradient(transparent, #000 1em)
+        width: 100%
+        text-align: center
+        bottom: 0
+        padding: 1em .3em .3em
+        color: #FFF
+        text-decoration: none
+
 </style>
