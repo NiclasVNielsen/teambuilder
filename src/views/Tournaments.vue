@@ -139,10 +139,11 @@ export default{
     position: absolute
     top: .5vh
     left: .5vh
-    background: #0f0
+    background: #00E000
     padding: 1vh 1vh
     border-radius: 2vh
     transition: 200ms
+    box-shadow: 0 0 .5vh
     &:hover
       background: #090
     a
