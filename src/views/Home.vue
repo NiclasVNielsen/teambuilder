@@ -1,12 +1,16 @@
 <template>
-  This nerd likes to play {{ champion }}
-
-  <br>
-  
-  <ul>
-    <li>Edit profile</li>
-    <li>Leave team</li>
-  </ul>
+<div class="home">
+  <div class="infoBox">
+    <figure>
+      <img src="@/assets/logo.png" alt="Logo">
+    </figure>
+    <p>
+      The best thing you can do is focus your champion pool on a couple champions so you 
+      can try to figure out the most important things about the game like map awareness 
+      and when you can kill the enemy.
+    </p>
+  </div>
+</div>
 </template>
 
 <script>
@@ -28,3 +32,23 @@ export default {
   name: 'Home',
 }
 </script>
+
+<style lang="sass" scoped>
+.home
+  background: url('../assets/lux.png'), #EAE1CD
+  background-size: cover
+  background-repeat: no-repeat
+  background-position: 20vw 7vh
+  height: 92.5vh
+
+.infoBox
+  width: 100%
+  max-width: 810px
+  text-align: left
+  padding: 177px 0 0 218px
+  img
+    width: 100%
+    height: auto
+    margin-bottom: 38px
+
+</style>
