@@ -132,7 +132,7 @@ header
   flex-wrap: wrap
   justify-content: space-between
   align-items: center
-  height: 12.5vh
+  height: 7.5vh
   background: #000
   .logo
     height: 100%
