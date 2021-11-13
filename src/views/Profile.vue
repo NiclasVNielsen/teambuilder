@@ -68,7 +68,6 @@
     </template>
   </div>
   <div>
-    <hr>
     <div class="containerVert match" v-for="(match) in matches" :key="match" v-bind:class="{
       'won1': match['players'][0].name == name && match['players'][0].team == match['winner'],
       'won1': match['players'][1].name == name && match['players'][1].team == match['winner'],
@@ -89,14 +88,14 @@
       }">
         <template v-if="dataTitle == 'teams'">
           <div class="container">
-            <div v-for="team in data" :key="team" style="margin: 5px 10px">
+            <div v-for="team in data" :key="team" style="margin: 5px 10px; width: 50%" class="teamNames">
               <router-link :to="{path: '/team/' + team}">{{ team }}</router-link>
             </div>
           </div>
         </template>
 
         <div v-if="dataTitle == 'players'" class="container">
-          <div>
+          <div class="teamMembers">
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 1">
                 <div>
@@ -105,10 +104,10 @@
               </template>
             </template>
           </div>
-          <div>
+          <div class="vs">
             vs
           </div>
-          <div>
+          <div class="teamMembers">
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 2">
                 <div>
@@ -213,6 +212,23 @@ export default{
     max-width: 700px
     margin: 4vh auto
 
+  .teamNames
+    text-align: left
+    &:first-of-type
+      text-align: right
+
+  .vs
+    display: flex
+    align-items: center
+
+  .teamMembers
+    max-width: 300px
+    width: 100%
+    text-align: left
+    padding: 2px 6px
+    &:first-of-type
+      text-align: right
+
   .order1
     order: 1
     h4
@@ -236,9 +252,11 @@ export default{
   
   .order3
     order: 3
+    margin: 6px 0 0 0
   
   .order4
     order: 4
+    margin: 0 0 6px 0
   
 
   .match
