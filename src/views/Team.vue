@@ -19,7 +19,7 @@
       </template>
   </div>
   <div>
-    <img alt="team icon">
+    <img class="teamIcon" alt="team icon">
   </div>
   <div>
     <hr>
@@ -90,7 +90,7 @@ export default{
           const storage = getStorage()
           getDownloadURL(refrence(storage, icon))
             .then(url => {
-              document.querySelector('img').src = url;
+              document.querySelector('.teamIcon').src = url;
             })
         }
 

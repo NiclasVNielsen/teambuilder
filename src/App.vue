@@ -22,11 +22,11 @@
 
       <div class="search">
         <form action="" method="get">
-          <input type="text" placeholder="Player" v-model="player" name="player">
+          <input type="text" placeholder="Player" v-model="player" name="player" required>
           <button type="submit" @click.stop.prevent="submitPlayer()">🔍</button>
         </form>
         <form action="" method="get">
-          <input type="text" placeholder="Team" v-model="team" name="team">
+          <input type="text" placeholder="Team" v-model="team" name="team" required>
           <button type="submit" @click.stop.prevent="submitTeam()">🔍</button>
         </form>
       </div>
