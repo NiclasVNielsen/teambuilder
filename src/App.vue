@@ -119,6 +119,7 @@ export default {
 
 body
   font-size: 18px
+  background: #EAE1CD
 
 img
   width: 100px

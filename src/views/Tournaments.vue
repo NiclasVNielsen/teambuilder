@@ -4,7 +4,7 @@
       <router-link to="/CreateTournament">Create Tournament</router-link>
     </div>
     <div v-for="tournament in tournaments" :key="tournament">
-        <div v-if="user == tournament['owner'] && tournament['time'].split('-').join('')  < `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`">
+        <div class="tournament" v-if="user == tournament['owner'] && tournament['time'].split('-').join('')  < `${(new Date).getUTCFullYear()}${(new Date).getUTCMonth() + 1}${(new Date).getUTCDate()}`">
           <p>
             {{ tournament['name'] }}
           </p>
@@ -25,7 +25,6 @@
           </form>
         </div>
     </div>
-    <hr>
     <div v-for="tournament in tournaments" :key="tournament" class="tournament">
         <div class="tournamentTitle">
           <div>
@@ -67,7 +66,6 @@
             <button type="submit" @click.stop.prevent="signTeamUp(tournament['name'], signup)">Sign up</button>
           </form>
         </template>
-        <hr>
     </div>
   </main>
 </template>
@@ -153,6 +151,8 @@ export default{
       display: block
 
   .tournament
+    padding: 5vh 0
+    box-shadow: 0 2vh 2vh -2vh
     .tournamentTitle
       display: flex
       justify-content: center
