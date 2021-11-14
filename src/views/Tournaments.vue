@@ -9,18 +9,25 @@
             {{ tournament['name'] }}
           </p>
           <form action="">
-            <label for="winner">Winner</label>
-            <select name="winner" id="winner" v-model="winner">
-              <template v-for="team in tournament['teams']" :key="team">
-                <option :value="team">{{ team }}</option>
-              </template>
-            </select>
-            <label for="looser">Looser</label>
-            <select name="looser" id="looser" v-model="looser">
-              <template v-for="team in tournament['teams']" :key="team">
-                <option :value="team">{{ team }}</option>
-              </template>
-            </select>
+            <p>
+              Add Match
+            </p>
+            <div>
+              <label for="winner">Winner</label>
+              <select name="winner" id="winner" v-model="winner">
+                <template v-for="team in tournament['teams']" :key="team">
+                  <option :value="team">{{ team }}</option>
+                </template>
+              </select>
+            </div>
+            <div>
+              <label for="looser">Looser</label>
+              <select name="looser" id="looser" v-model="looser">
+                <template v-for="team in tournament['teams']" :key="team">
+                  <option :value="team">{{ team }}</option>
+                </template>
+              </select>
+            </div>
             <button type="submit" @click.stop.prevent="createMatchInHistorie(winner, looser)">Create Match in Historie</button>
           </form>
         </div>
@@ -167,6 +174,23 @@ export default{
         padding: .5em
     .tournamentTeams
       margin-top: .5em
+
+  form
+    margin-top: 2vh
+
+  button
+      display: block
+      text-align: left
+      margin: 2vh auto 0
+      font-size: 1em
+      border: none
+      padding: .5em
+      border-radius: .2em
+      text-align: center
+      background: #00E000
+      color: #fff
+      &:hover        
+          background: #090
 
 @media screen and (max-width: 750px)
   .create
