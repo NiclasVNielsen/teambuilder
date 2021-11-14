@@ -8,7 +8,7 @@
       Summoner Name: {{ name }}
     </p>
     <br>
-    <p>
+    <p class="teams">
       Teams: 
       <template v-for="team in teams" :key="team">
         <p>
@@ -297,6 +297,12 @@ export default{
         padding: 1em .3em .3em
         color: #FFF
         text-decoration: none
+
+  .teams
+    margin: 2vh 0
+    a
+      color: #000
+
 
   @media screen and (max-width: 550px)
     .championContainer
