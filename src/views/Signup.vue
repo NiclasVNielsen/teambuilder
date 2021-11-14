@@ -32,6 +32,7 @@
                 </draggable>
                 <br>
 
+                <label for="champions">Favorite Champions</label>
                 <select name="champions" id="champions" v-model="lanes.champPool" multiple>
                     <template v-for="(champs) in champions" :key="champs">
                         <option :value="champs">{{champs}}</option>
@@ -139,3 +140,53 @@ export default{
 }
 
 </script>
+<style lang="sass" scoped>
+    form
+        max-width: 500px
+        margin: 0 auto
+
+    input, label, button, p
+        display: block
+        text-align: left
+        width: 100%
+
+    label, p, button
+        margin-top: 2vh
+
+    input, button
+        font-size: 1em
+        border: none
+        padding: .5em
+        border-radius: .2em
+
+    button
+        text-align: center
+        background: #00E000
+        color: #fff
+        margin-bottom: 10vh
+        &:hover        
+            background: #090
+
+    #lanePref
+        div
+            margin-top: .5vh
+            text-align: left
+            &:nth-of-type(1)::before
+                content: "1. "
+            &:nth-of-type(2)::before
+                content: "2. "
+            &:nth-of-type(3)::before
+                content: "3. "
+            &:nth-of-type(4)::before
+                content: "4. "
+            &:nth-of-type(5)::before
+                content: "5. "
+    
+    #champions
+        font-size: 1em
+        width: 100%
+        height: 70vh
+        border: none
+        padding: .5em
+        border-radius: .2em
+</style>
