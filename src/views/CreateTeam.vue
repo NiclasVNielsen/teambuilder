@@ -7,9 +7,8 @@
             <form @submit.prevent="create">
                 <label for="name">Team Name</label>
                 <input type="text" name="name" id="name" placeholder="name" v-model="name">
-                <div id="fileUploadContainer">
-                    <file-input v-model="icon" is-image></file-input>
-                </div>
+                <p>Team Logo</p>
+                <file-input v-model="icon" is-image></file-input>
                 <button type="submit">Create Team</button>
             </form>
         </div>
@@ -73,4 +72,29 @@ main
     top: 20%
     transform: translateX(-50%)
     
+form
+    max-width: 500px
+    margin: 0 auto
+
+input, label, button, p
+    display: block
+    text-align: left
+    width: 100%
+
+label, p, button
+    margin-top: 2vh
+
+input, button
+    font-size: 1em
+    border: none
+    padding: .5em
+    border-radius: .2em
+
+button
+    text-align: center
+    background: #00E000
+    color: #fff
+    &:hover        
+        background: #090
+
 </style>
