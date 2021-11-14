@@ -34,21 +34,21 @@
       'won': name == match['teams'][match['winner']]
     }">
       <div v-for="(data, dataTitle) in match" :key="data" v-bind:class="{
-        'order1': dataTitle == 'teams',
+        'order11': dataTitle == 'teams',
         'order2': dataTitle == 'players',
-        'order3': dataTitle == 'time',
-        'order4': dataTitle == 'winner'
+        'order3': dataTitle == 'winner',
+        'order4': dataTitle == 'time'
       }">
         <template v-if="dataTitle == 'teams'">
           <div class="container">
-            <div v-for="team in data" :key="team" style="margin: 5px 10px">
-                <a :href="'/team/' + team">{{team}}</a>
+            <div v-for="team in data" :key="team" style="margin: 5px 10px; width: 50%" class="teamNames">
+              <router-link :to="{path: '/team/' + team}">{{ team }}</router-link>
             </div>
           </div>
         </template>
 
         <div v-if="dataTitle == 'players'" class="container">
-          <div>
+          <div class="teamMembers">
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 1">
                 <div>
@@ -57,10 +57,10 @@
               </template>
             </template>
           </div>
-          <div>
+          <div class="vs">
             vs
           </div>
-          <div>
+          <div class="teamMembers">
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 2">
                 <div>
@@ -70,14 +70,12 @@
             </template>
           </div>
         </div>
-        
-        <template v-if="dataTitle == 'time'">
-          {{ data.toDate().toDateString() }}
-        </template>
-        
         <template v-if="dataTitle == 'winner'">
           Winner: 
-          <a :href="'/team/' + match['teams'][data]">{{ match['teams'][data] }}</a>
+          <router-link :to="{path: '/team/' + match['teams'][data]}">{{ match['teams'][data] }}</router-link>
+        </template>
+        <template v-if="dataTitle == 'time'">
+          {{ data.toDate().toDateString() }}
         </template>
       </div>
     </div>
@@ -202,18 +200,63 @@ export default{
           text-decoration: none
 
   
+  .teamNames
+    text-align: left
+    a
+      color: #000
+      text-decoration: none
+    &:first-of-type
+      text-align: right
 
+  .vs
+    display: flex
+    align-items: center
+
+  .teamMembers
+    max-width: 300px
+    width: 100%
+    text-align: left
+    padding: 2px 6px
+    &:first-of-type
+      text-align: right
+    div
+      a
+        color: #000
+        text-decoration: none
+  
   .order1
     order: 1
+    h4
+      width: 100%
+      max-width: 700px
+      text-align: left
+      margin: 0 auto
+    .container
+      display: block
+      width: 100%
+      max-width: 700px
+      text-align: left
+  .order1
+    order: 1
+  .order11
+    order: 1
+    background: #EAE1CD
+    box-shadow: 0 0 1vh
+    margin-bottom: 1vh
   
   .order2
     order: 2
   
   .order3
     order: 3
+    margin: 6px 0 1vh 0
+    a
+      color: #000
+      text-decoration: none
   
   .order4
     order: 4
+    margin: 0 0 5vh 0
   
 
   .match
