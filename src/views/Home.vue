@@ -51,4 +51,12 @@ export default {
     height: auto
     margin-bottom: 38px
 
+@media screen and (max-width: 1000px)
+  .infoBox
+    padding: 5vh
+    max-width: 100%
+    img
+      width: 70%
+      margin: 10vh 15% 5vh
+
 </style>
