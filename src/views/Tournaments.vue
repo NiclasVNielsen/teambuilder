@@ -167,4 +167,13 @@ export default{
         padding: .5em
     .tournamentTeams
       margin-top: .5em
+
+@media screen and (max-width: 750px)
+  .create
+    position: static
+    border-radius: 0 0 2vh 2vh
+    box-shadow: 0 0 .5vh
+
+  .tournamentTitle
+    flex-direction: column
 </style>
