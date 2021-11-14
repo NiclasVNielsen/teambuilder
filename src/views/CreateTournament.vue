@@ -7,6 +7,7 @@
             <form @submit.prevent="create">
                 <label for="name">Tournament Name</label>
                 <input type="text" name="name" id="name" placeholder="name" v-model="name">
+                <p>Tournament Icon</p>
                 <file-input v-model="icon" is-image></file-input>
                 <label for="desc">Description</label>
                 <input type="text" name="desc" id="desc" placeholder="Description" v-model="desc">
@@ -51,8 +52,6 @@ export default{
                 })
 
         }
-        
-
         return { name, icon, desc, amountOfTeams, deadLine, startDate, create }
     },
     components: {
@@ -60,3 +59,31 @@ export default{
     }
 }
 </script>
+
+<style lang="sass" scoped>
+    form
+        max-width: 500px
+        margin: 0 auto
+
+    input, label, button, p
+        display: block
+        text-align: left
+        width: 100%
+
+    label, p, button
+        margin-top: 2vh
+
+    input, button
+        font-size: 1em
+        border: none
+        padding: .5em
+        border-radius: .2em
+
+    button
+        text-align: center
+        background: #00E000
+        color: #fff
+        &:hover        
+            background: #090
+
+</style>
