@@ -152,8 +152,10 @@ header
       button
         border: none
         background: none
+        margin-left: 1.3vh
         margin-right: 2.6vh
         cursor: pointer
+        transform: translateY(-1px)
       a
         text-decoration: none
         display: block
@@ -178,7 +180,7 @@ header
           border-radius: 0 1.6vh 1.6vh 0
           padding-right: 1.4vh
 
-@media screen and (max-width: 750px)
+@media screen and (max-width: 1000px)
   header
     display: block
     height: auto
