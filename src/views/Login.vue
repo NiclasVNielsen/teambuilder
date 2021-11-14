@@ -46,3 +46,31 @@ export default{
     name: 'Login',
 }
 </script>
+
+<style lang="sass" scoped>
+    form
+        max-width: 500px
+        margin: 0 auto
+
+    input, label, button, p
+        display: block
+        text-align: left
+        width: 100%
+
+    label, p, button
+        margin-top: 2vh
+
+    input, button
+        font-size: 1em
+        border: none
+        padding: .5em
+        border-radius: .2em
+
+    button
+        text-align: center
+        background: #00E000
+        color: #fff
+        &:hover        
+            background: #090
+
+</style>
