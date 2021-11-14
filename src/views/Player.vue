@@ -1,18 +1,32 @@
 <template>
-  <p>
-    Summoner Name: {{ name }}
-  </p>
-  <p>
-    Rank: {{ rank }}
-  </p>
-  <p>
-    Teams: 
-    <template v-for="team in teams" :key="team">
-      <a :href="'/team/' + team.teamName">
-        {{ team.teamName }}
-      </a>
-    </template>
-  </p>
+  <div class="info">
+    <br>
+    <p>
+      Summoner Name: {{ name }}
+    </p>
+    <br>
+    <p>
+      Teams: 
+      <template v-for="team in teams" :key="team">
+        <p>
+          <a :href="'/team/' + team.teamName">
+            {{ team.teamName }}
+          </a>
+        </p>
+      </template>
+    </p>
+    <br>
+    <p>
+      <label for="userRank">Rank:</label>
+      <select name="userRank" id="userRank" v-model="userRank">
+        <template v-for="tier in ranks" :key="tier">
+          <option :value="tier">
+            {{ tier }}
+          </option>
+        </template>
+      </select>
+    </p>
+  </div>
   <div class="containerVert">
     <template v-for="(lane, group) in lanes" :key="lane">
       <div v-bind:class="{
@@ -27,17 +41,30 @@
             Favorite Champions
           </template>
         </h4>
-        <p v-for="(lan, useless, i) in lane" :key="lan">
-          <template v-if="group == 'prefLevel'">
-            {{ i + 1 }}
+        <!-- This needs a rework they should be sepereated -->
+        <div class="container championContainer">
+          <template v-for="(lan, useless, i) in lane" :key="lan">
+            <template v-if="group == 'prefLevel'">
+              <template v-if="i < 2">
+                <p>
+                  {{ laneOrderTitles[i] }} {{ lan }}
+                </p>
+              </template>
+            </template>
+            <template v-else>
+              <div>
+                <img :src="require('@/assets/championsFull/' + lan + '_0.jpg')" alt="Champion Art">
+                <p>
+                  {{ lan }}
+                </p>
+              </div>
+            </template>
           </template>
-          {{ lan }}
-        </p>
+        </div>
       </div>
     </template>
   </div>
   <div>
-    <hr>
     <div class="containerVert match" v-for="(match) in matches" :key="match" v-bind:class="{
       'won1': match['players'][0].name == name && match['players'][0].team == match['winner'],
       'won1': match['players'][1].name == name && match['players'][1].team == match['winner'],
@@ -51,21 +78,21 @@
       'won9': match['players'][9].name == name && match['players'][9].team == match['winner'],
     }">
       <div v-for="(data, dataTitle) in match" :key="data" v-bind:class="{
-        'order1': dataTitle == 'teams',
+        'order11': dataTitle == 'teams',
         'order2': dataTitle == 'players',
         'order3': dataTitle == 'time',
         'order4': dataTitle == 'winner'
       }">
         <template v-if="dataTitle == 'teams'">
           <div class="container">
-            <div v-for="team in data" :key="team" style="margin: 5px 10px">
-                <a :href="'/team/' + team">{{team}}</a>
+            <div v-for="team in data" :key="team" style="margin: 5px 10px; width: 50%" class="teamNames">
+              <router-link :to="{path: '/team/' + team}">{{ team }}</router-link>
             </div>
           </div>
         </template>
 
         <div v-if="dataTitle == 'players'" class="container">
-          <div>
+          <div class="teamMembers">
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 1">
                 <div>
@@ -74,10 +101,10 @@
               </template>
             </template>
           </div>
-          <div>
+          <div class="vs">
             vs
           </div>
-          <div>
+          <div class="teamMembers">
             <template v-for="player in data" :key="player">
               <template v-if="player.team == 2">
                 <div>
@@ -93,8 +120,8 @@
         </template>
         
         <template v-if="dataTitle == 'winner'">
-          Winner:
-          <a :href="'/team/' + match['teams'][data]">{{ match['teams'][data] }}</a>
+          Winner: 
+          <router-link :to="{path: '/team/' + match['teams'][data]}">{{ match['teams'][data] }}</router-link>
         </template>
       </div>
     </div>
@@ -102,74 +129,148 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { ref } from 'vue'
 import { getUserByName, getRanks, getMatchesByPlayer, getTeamsByPlayer } from '@/main.js'
 
 export default{
-    setup() {
-        const route = useRoute()
+  setup() {
+    const route = useRoute()
+    const name = ref('')
+    const rank = ref('')
+    const ranks = ref([])
+    const lanes = ref('')
+    const matches = ref('')
+    const teams = ref('')
+    const laneOrderTitles = ref([
+      'Primary',
+      'Secondary'
+    ])
 
-        let name = ref('')
-        let rank = ref('')
-        let lanes = ref('')
-        let matches = ref('')
-        let teams = ref('')
-        getUserByName(route.params.username)
-            .then(data => {
-            name.value = data[0].lolName
-            rank.value = data[0].rank
-            lanes.value = data[0].lanes
-            
-            getMatchesByPlayer(data[0].lolName)
-                .then(data => {
-                matches.value = data
-                })
-            getTeamsByPlayer(data[0].lolName)
-              .then(data => {
-                teams.value = data
-              })
-            getRanks()
-                .then(rankData => {
-                rank.value = rankData[rank.value]
-                })
-            })
+    const userRank = ref('')
 
-        return {
-            name, rank, lanes, matches, teams
-        }
+    getUserByName(route.params.username)
+      .then(data => {
+        name.value = data[0].lolName
+        rank.value = data[0].rank
+        lanes.value = data[0].lanes
+        
+        getMatchesByPlayer(data[0].lolName)
+          .then(data => {
+            matches.value = data
+          })
+        getTeamsByPlayer(data[0].lolName)
+          .then(data => {
+            teams.value = data
+          })
+        getRanks()
+          .then(rankData => {
+            ranks.value = rankData
+            rank.value = rankData[rank.value]
+            userRank.value = `${rank.value}`
+          })
+      })
+    
+    return {
+        name, rank, lanes, matches, teams, ranks, userRank, laneOrderTitles
     }
+  }
 }
 </script>
 
-<style lang="scss" scoped>
-  .containerVert{
-    display: flex;
-    flex-direction: column;
-  }
-  .container{
-    display: flex;
-    justify-content: center;
-  }
+<style lang="sass" scoped>
+  .containerVert
+    display: flex
+    flex-direction: column
+  
+  .container
+    display: flex
+    justify-content: center
+  
+  .prefLevel
+    display: block !important
 
-  .order1{
+  .info
+    display: flex
+    flex-direction: column
+    text-align: left
+    width: 100%
+    max-width: 700px
+    margin: 4vh auto
+
+  .teamNames
+    text-align: left
+    &:first-of-type
+      text-align: right
+
+  .vs
+    display: flex
+    align-items: center
+
+  .teamMembers
+    max-width: 300px
+    width: 100%
+    text-align: left
+    padding: 2px 6px
+    &:first-of-type
+      text-align: right
+
+  .order1
     order: 1
-  }
-  .order2{
+    h4
+      width: 100%
+      max-width: 700px
+      text-align: left
+      margin: 0 auto
+    .container
+      display: block
+      width: 100%
+      max-width: 700px
+      text-align: left
+
+  .order1
+    order: 1
+  .order11
+    order: 1
+  
+  .order2
     order: 2
-  }
-  .order3{
+  
+  .order3
     order: 3
-  }
-  .order4{
+    margin: 6px 0 0 0
+  
+  .order4
     order: 4
-  }
+    margin: 0 0 6px 0
+  
 
-  .match{
-    background: #F00;
-  }
+  .match
+    background: #F00
+  
 
-  .won1, .won2, .won3, .won4, .won5, .won6, .won7, .won8, .won9, .won10 {
-    background: #0F0 !important;
-  }
+  .won1, .won2, .won3, .won4, .won5, .won6, .won7, .won8, .won9, .won10 
+    background: #0F0 !important
+  
+
+  .championContainer
+    max-width: 1000px
+    width: 100%
+    margin: 0 auto 12vh
+    >div
+      width: 20%
+      position: relative
+      img
+        width: 100%
+        height: auto
+      p:last-of-type
+        position: absolute
+        background: linear-gradient(transparent, #000 1em)
+        width: 100%
+        text-align: center
+        bottom: 0
+        padding: 1em .3em .3em
+        color: #FFF
+        text-decoration: none
+
 </style>

@@ -83,8 +83,8 @@
       <div v-for="(data, dataTitle) in match" :key="data" v-bind:class="{
         'order11': dataTitle == 'teams',
         'order2': dataTitle == 'players',
-        'order3': dataTitle == 'time',
-        'order4': dataTitle == 'winner'
+        'order3': dataTitle == 'winner',
+        'order4': dataTitle == 'time'
       }">
         <template v-if="dataTitle == 'teams'">
           <div class="container">
@@ -117,14 +117,12 @@
             </template>
           </div>
         </div>
-        
-        <template v-if="dataTitle == 'time'">
-          {{ data.toDate().toDateString() }}
-        </template>
-        
         <template v-if="dataTitle == 'winner'">
           Winner: 
           <router-link :to="{path: '/team/' + match['teams'][data]}">{{ match['teams'][data] }}</router-link>
+        </template>
+        <template v-if="dataTitle == 'time'">
+          {{ data.toDate().toDateString() }}
         </template>
       </div>
     </div>
@@ -214,6 +212,9 @@ export default{
 
   .teamNames
     text-align: left
+    a
+      color: #000
+      text-decoration: none
     &:first-of-type
       text-align: right
 
@@ -228,6 +229,10 @@ export default{
     padding: 2px 6px
     &:first-of-type
       text-align: right
+    div
+      a
+        color: #000
+        text-decoration: none
 
   .order1
     order: 1
@@ -246,17 +251,23 @@ export default{
     order: 1
   .order11
     order: 1
+    background: #EAE1CD
+    box-shadow: 0 0 1vh
+    margin-bottom: 1vh
   
   .order2
     order: 2
   
   .order3
     order: 3
-    margin: 6px 0 0 0
+    margin: 6px 0 1vh 0
+    a
+      color: #000
+      text-decoration: none
   
   .order4
     order: 4
-    margin: 0 0 6px 0
+    margin: 0 0 5vh 0
   
 
   .match

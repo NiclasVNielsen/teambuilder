@@ -72,10 +72,5 @@ main
     left: 50%
     top: 20%
     transform: translateX(-50%)
-
-#fileUploadContainer
-    div
-        width: 100%
-        background: #000
     
 </style>
