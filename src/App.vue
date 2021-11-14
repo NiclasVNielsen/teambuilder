@@ -178,4 +178,26 @@ header
           border-radius: 0 1.6vh 1.6vh 0
           padding-right: 1.4vh
 
+@media screen and (max-width: 750px)
+  header
+    display: block
+    height: auto
+    .logo
+      height: 80px
+    #nav
+      display: block
+      .links
+        display: block
+        a
+          margin: 2vh auto
+      .search
+        flex-direction: column
+        form
+          margin: 2vh auto
+          &:last-of-type
+            margin: 2vh auto
+          input, button
+            padding: 2vh
+            height: auto
+
 </style>
