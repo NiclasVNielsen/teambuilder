@@ -265,5 +265,13 @@ export default{
 
   .won
     background: #0F0 !important
-  
+    
+  @media screen and (max-width: 550px)
+    .team, .playerContainer
+      flex-direction: column
+
+    .playerContainer
+      div
+        width: 100%
+
 </style>

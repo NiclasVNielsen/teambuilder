@@ -284,4 +284,9 @@ export default{
         color: #FFF
         text-decoration: none
 
+  @media screen and (max-width: 550px)
+    .championContainer
+      flex-direction: column
+      div
+        width: 100%
 </style>

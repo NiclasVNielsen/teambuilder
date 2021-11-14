@@ -190,6 +190,8 @@ header
         display: block
         a
           margin: 2vh auto
+        button
+          margin: 0 auto
       .search
         flex-direction: column
         form
